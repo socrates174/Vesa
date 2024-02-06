@@ -1,0 +1,44 @@
+﻿using eShop.Ordering.Management.Events;
+using eShop.Ordering.Management.Exceptions;
+using eShop.Ordering.Management.Service.Slices.ReorderStock;
+using Microsoft.Extensions.DependencyInjection;
+using vesa.Core.Abstractions;
+using vCI = vesa.Core.Infrastructure;
+
+namespace eShop.Ordering.Management.Service.Slices.PlaceOrder;
+
+public class OutOfStockExceptionHandler : vCI.EventHandler<OutOfStockExceptionEvent>
+{
+
+
+    public OutOfStockExceptionHandler
+    (
+        IServiceProvider serviceProvider,
+        IEventStore eventStore
+    )
+        : base(serviceProvider, eventStore)
+    {
+    }
+
+    public override async Task HandleAsync(OutOfStockExceptionEvent @event, CancellationToken cancellationToken)
+    {
+        var outOfStockException = @event.Exception as OutOfStockException;
+        var reorderStockCommand = new ReorderStockCommand
+        (
+            // assign the event Id as the command Id so that when the domain generates an event,
+            // it takes the command Id as the IdempotencyToken and will prevent the command from being handled twice
+            @event.Id,
+            outOfStockException.OrderNumber,
+            outOfStockException.Items,
+            @event.TriggeredBy,
+            @event.SequenceNumber
+        );
+
+        using (var scope = _serviceProvider.CreateScope())
+        {
+            var serviceProvider = scope.ServiceProvider;
+            var commandHandler = serviceProvider.GetRequiredService<ICommandHandler<ReorderStockCommand>>();
+            var events = await commandHandler.HandleAsync(reorderStockCommand, new CancellationToken());
+        }
+    }
+}

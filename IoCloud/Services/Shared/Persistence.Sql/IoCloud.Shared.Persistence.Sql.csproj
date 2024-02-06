@@ -1,0 +1,23 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.2.23" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Entity\IoCloud.Shared.Entity.csproj" />
+    <ProjectReference Include="..\Mapping\IoCloud.Shared.Mapping.csproj" />
+    <ProjectReference Include="..\Messages\IoCloud.Shared.Messages.csproj" />
+    <ProjectReference Include="..\Querying.Sql\IoCloud.Shared.Querying.Sql.csproj" />
+  </ItemGroup>
+
+</Project>

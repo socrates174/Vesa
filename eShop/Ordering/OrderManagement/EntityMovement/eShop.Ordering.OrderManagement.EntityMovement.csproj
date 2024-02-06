@@ -1,0 +1,22 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-eShop.Ordering.OrderManagement.EntityMovement-47C10336-0177-4C14-9B6E-9F0128FB9378</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\IoCloud\Services\Shared\ChangeFeed.Cosmos\IoCloud.Shared.ChangeFeed.Cosmos.csproj" />
+    <ProjectReference Include="..\..\..\..\IoCloud\Services\Shared\Utility\IoCloud.Shared.Utility.csproj" />
+    <ProjectReference Include="..\..\OrderInquiry\Data\eShop.Ordering.OrderInquiry.Data.csproj" />
+    <ProjectReference Include="..\Data\eShop.Ordering.OrderManagement.Data.csproj" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="MediatR" Version="11.1.0" />
+    <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.31.2" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Options" Version="7.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Entity\IoCloud.Shared.Entity.csproj" />
+    <ProjectReference Include="..\MessageHandling\IoCloud.Shared.MessageHandling.csproj" />
+    <ProjectReference Include="..\Messages\IoCloud.Shared.Messages.csproj" />
+    <ProjectReference Include="..\Querying.Cosmos\IoCloud.Shared.Querying.Cosmos.csproj" />
+    <ProjectReference Include="..\Settings\IoCloud.Shared.Settings.csproj" />
+    <ProjectReference Include="..\Utility\IoCloud.Shared.Utility.csproj" />
+  </ItemGroup>
+
+</Project>

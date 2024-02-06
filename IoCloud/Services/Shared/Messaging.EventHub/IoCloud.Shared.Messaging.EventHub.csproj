@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="12.0.0" />
+    <PackageReference Include="Azure.Messaging.EventHubs" Version="5.7.5" />
+    <PackageReference Include="Azure.Messaging.EventHubs.Processor" Version="5.7.5" />
+    <PackageReference Include="Azure.Storage.Blobs" Version="12.14.1" />
+    <PackageReference Include="Microsoft.Extensions.Hosting.Abstractions" Version="7.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mapping\IoCloud.Shared.Mapping.csproj" />
+    <ProjectReference Include="..\MessageHandling\IoCloud.Shared.MessageHandling.csproj" />
+    <ProjectReference Include="..\Messages\IoCloud.Shared.Messages.csproj" />
+    <ProjectReference Include="..\Querying\IoCloud.Shared.Querying.csproj" />
+    <ProjectReference Include="..\Settings\IoCloud.Shared.Settings.csproj" />
+    <ProjectReference Include="..\Utility\IoCloud.Shared.Utility.csproj" />
+  </ItemGroup>
+
+</Project>

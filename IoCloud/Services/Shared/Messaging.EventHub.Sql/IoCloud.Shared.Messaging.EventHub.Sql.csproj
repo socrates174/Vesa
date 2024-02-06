@@ -1,0 +1,17 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Mapping\IoCloud.Shared.Mapping.csproj" />
+    <ProjectReference Include="..\Messages\IoCloud.Shared.Messages.csproj" />
+    <ProjectReference Include="..\Messaging.EventHub\IoCloud.Shared.Messaging.EventHub.csproj" />
+    <ProjectReference Include="..\Persistence.Sql\IoCloud.Shared.Persistence.Sql.csproj" />
+    <ProjectReference Include="..\Querying.Sql\IoCloud.Shared.Querying.Sql.csproj" />
+  </ItemGroup>
+
+</Project>

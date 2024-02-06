@@ -1,0 +1,13 @@
+﻿{
+  "profiles": {
+    "eShop.Ordering.OrderInquiry.HubAPI": {
+      "commandName": "Project",
+      "dotnetRunMessages": true,
+      "environmentVariables": {
+        "DOTNET_ENVIRONMENT": "Development",
+        "COSMOSDB-URL": "https://localhost:8081",
+        "COSMOSDB-KEY": ""
+      }
+    }
+  }
+}

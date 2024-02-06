@@ -1,0 +1,24 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>dotnet-eShop.Ordering.OrderInquiry.HubAPI-93CC0FA7-AE1E-430D-9580-6367369543FF</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.0" />
+    <PackageReference Include="MediatR.Extensions.Microsoft.DependencyInjection" Version="11.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\IoCloud\Services\Shared\Messaging.EventHub\IoCloud.Shared.Messaging.EventHub.csproj" />
+    <ProjectReference Include="..\..\..\..\IoCloud\Services\Shared\Persistence.Cosmos\IoCloud.Shared.Persistence.Cosmos.csproj" />
+    <ProjectReference Include="..\..\..\..\IoCloud\Services\Shared\Querying.Cosmos\IoCloud.Shared.Querying.Cosmos.csproj" />
+    <ProjectReference Include="..\..\..\..\IoCloud\Services\Shared\Storage.Blobs\IoCloud.Shared.Storage.Blobs.csproj" />
+    <ProjectReference Include="..\..\..\..\IoCloud\Services\Shared\Utility\IoCloud.Shared.Utility.csproj" />
+    <ProjectReference Include="..\Data\eShop.Ordering.OrderInquiry.Data.csproj" />
+  </ItemGroup>
+</Project>

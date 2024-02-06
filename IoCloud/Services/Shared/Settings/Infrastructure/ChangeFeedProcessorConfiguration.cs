@@ -1,0 +1,16 @@
+﻿using IoCloud.Shared.Settings.Abstractions;
+
+namespace IoCloud.Shared.Settings.Infrastructure
+{
+    public class ChangeFeedProcessorConfiguration : IChangeFeedProcessorConfiguration
+    {
+        public string SourceDatabaseName { get; set; }
+        public string SourceContainerName { get; set; }
+        public string LeaseDatabaseName { get; set; }
+        public string LeaseContainerName { get; set; }
+        public string ProcessorName { get; set; }
+
+        // Example: "2022/08/20 10:45:00 PM -05:00"
+        public DateTimeOffset? StartDateTimeOffset { get; set; }
+    }
+}
