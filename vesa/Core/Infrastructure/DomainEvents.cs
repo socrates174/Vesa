@@ -1,6 +1,6 @@
-﻿using vesa.Core.Abstractions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using vesa.Core.Abstractions;
 using vesa.Core.Extensions;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace vesa.Core.Infrastructure;
 
@@ -28,4 +28,6 @@ public class DomainEvents : List<IEvent>, IDomainEvents
 
         return this;
     }
+
+    public void Clear() => base.Clear();
 }

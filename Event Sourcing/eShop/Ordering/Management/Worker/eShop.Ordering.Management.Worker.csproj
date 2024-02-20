@@ -4,7 +4,7 @@
     <TargetFramework>net70</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <UserSecretsId>dotnet-eShop.Ordering.Management.Workder-700748A7-10E9-4C1A-ADA1-DBFABF0849A1</UserSecretsId>
+    <UserSecretsId>dotnet-eShop.Ordering.Management.Worker-700748A7-10E9-4C1A-ADA1-DBFABF0849A1</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>

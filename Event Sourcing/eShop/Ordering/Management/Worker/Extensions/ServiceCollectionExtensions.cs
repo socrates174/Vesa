@@ -62,7 +62,7 @@ public static class ServiceCollectionExtensions
         switch (configuration["StateViewStore"])
         {
             case "File":
-                services.AddSingleton(typeof(IStateViewStore<>), typeof(FileStateViewStore<>));
+                services.AddScoped(typeof(IStateViewStore<>), typeof(FileStateViewStore<>));
                 break;
 
             case "SQL":
@@ -119,6 +119,8 @@ public static class ServiceCollectionExtensions
         //// Add Event Hub Consumption Service with CheckPointing and event processed check
         //;
 
+        // Registry Generic Factory
+        services.AddTransient(typeof(IFactory<>), typeof(GenericFactory<>));
 
         // Domain and Command handlers
 
@@ -139,18 +141,19 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IDomain<ReorderStockCommand>, ReorderStockDomain>();
 
         // Event handlers
-        services.AddSingleton<IEventHandler<OrderPlacedEvent>, OrderPlacedHandler>();
-        services.AddSingleton<IEventHandler<OrderCancelledEvent>, OrderCancelledHandler>();
-        services.AddSingleton<IEventHandler<OrderReturnedEvent>, OrderReturnedHandler>();
-        services.AddSingleton<IEventHandler<OutOfStockExceptionEvent>, OutOfStockExceptionHandler>();
-        services.AddSingleton<IEventHandler<StockReorderedEvent>, StockReorderedHandler>();
+        services.AddScoped<IEventHandler<OrderPlacedEvent>, EventHandler<OrderPlacedEvent, OrderStateView>>();
+        services.AddScoped<IEventHandler<OrderCancelledEvent>, EventHandler<OrderCancelledEvent, OrderStateView>>();
+        services.AddScoped<IEventHandler<OrderReturnedEvent>, EventHandler<OrderReturnedEvent, OrderStateView>>();
+        services.AddScoped<IEventHandler<OutOfStockExceptionEvent>, OutOfStockExceptionHandler>();
+        services.AddScoped<IEventHandler<StockReorderedEvent>, EventPublicationHandler<StockReorderedEvent, OrderStateView>>();
+
 
         // Event observers
-        services.AddSingleton<IEventObservers, EventObservers<OrderPlacedEvent>>();
-        services.AddSingleton<IEventObservers, EventObservers<OrderCancelledEvent>>();
-        services.AddSingleton<IEventObservers, EventObservers<OrderReturnedEvent>>();
-        services.AddSingleton<IEventObservers, EventObservers<OutOfStockExceptionEvent>>();
-        services.AddSingleton<IEventObservers, EventObservers<StockReorderedEvent>>();
+        services.AddScoped<IEventObservers, EventObservers<OrderPlacedEvent>>();
+        services.AddScoped<IEventObservers, EventObservers<OrderCancelledEvent>>();
+        services.AddScoped<IEventObservers, EventObservers<OrderReturnedEvent>>();
+        services.AddScoped<IEventObservers, EventObservers<OutOfStockExceptionEvent>>();
+        services.AddScoped<IEventObservers, EventObservers<StockReorderedEvent>>();
 
         // We need the state views' Subject in order to write the events to a partition that the state view can be hydrated from
         services.AddTransient<IDomainEvents, DomainEvents>();
@@ -176,10 +179,10 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IStateView<OrderReturnedEvent>, DailyOrdersStateView>();
 
         // Business components
-        services.AddSingleton<IOrderNumberGenerator, OrderNumberGenerator>();
-        services.AddSingleton<IInventoryChecker, InventoryChecker>();
-        services.AddSingleton<IPaymentProcessor, PaymentProcessor>();
-        services.AddSingleton<IDeliveryScheduler, DeliveryScheduler>();
+        services.AddScoped<IOrderNumberGenerator, OrderNumberGenerator>();
+        services.AddScoped<IInventoryChecker, InventoryChecker>();
+        services.AddScoped<IPaymentProcessor, PaymentProcessor>();
+        services.AddScoped<IDeliveryScheduler, DeliveryScheduler>();
 
         return services;
     }

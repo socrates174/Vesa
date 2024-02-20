@@ -120,10 +120,10 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IDomain<ReorderStockCommand>, ReorderStockDomain>();
 
         // Business components
-        services.AddSingleton<IOrderNumberGenerator, OrderNumberGenerator>();
-        services.AddSingleton<IInventoryChecker, InventoryChecker>();
-        services.AddSingleton<IPaymentProcessor, PaymentProcessor>();
-        services.AddSingleton<IDeliveryScheduler, DeliveryScheduler>();
+        services.AddScoped<IOrderNumberGenerator, OrderNumberGenerator>();
+        services.AddScoped<IInventoryChecker, InventoryChecker>();
+        services.AddScoped<IPaymentProcessor, PaymentProcessor>();
+        services.AddScoped<IDeliveryScheduler, DeliveryScheduler>();
 
         return services;
     }

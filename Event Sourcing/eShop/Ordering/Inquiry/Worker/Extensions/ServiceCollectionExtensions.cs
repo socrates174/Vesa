@@ -58,7 +58,7 @@ public static class ServiceCollectionExtensions
         switch (configuration["StateViewStore"])
         {
             case "File":
-                services.AddSingleton(typeof(IStateViewStore<>), typeof(FileStateViewStore<>));
+                services.AddScoped(typeof(IStateViewStore<>), typeof(FileStateViewStore<>));
                 break;
             case "SQL":
                 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -104,9 +104,9 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IEventHandler<OrderReturnedEvent>, DailyOrdersStateViewUpdater>();
 
         // Event observers
-        services.AddSingleton<IEventObservers, EventObservers<OrderPlacedEvent>>();
-        services.AddSingleton<IEventObservers, EventObservers<OrderCancelledEvent>>();
-        services.AddSingleton<IEventObservers, EventObservers<OrderReturnedEvent>>();
+        services.AddScoped<IEventObservers, EventObservers<OrderPlacedEvent>>();
+        services.AddScoped<IEventObservers, EventObservers<OrderCancelledEvent>>();
+        services.AddScoped<IEventObservers, EventObservers<OrderReturnedEvent>>();
 
         return services;
     }

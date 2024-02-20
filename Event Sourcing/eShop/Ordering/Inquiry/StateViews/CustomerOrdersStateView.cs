@@ -48,6 +48,7 @@ public class CustomerOrdersStateView : StateView, IStateView<OrderPlacedEvent>, 
 
     public static string GetDefaultSubject(string customerNumber) => $"CustomerOrders_{customerNumber}";
     public override string Subject => GetDefaultSubject(CustomerNumber ?? string.Empty);
+    public override string SubjectPrefix => "CustomerOrders_";
 
     public string CustomerNumber { get; init; }
     public Customer Customer { get; init; }

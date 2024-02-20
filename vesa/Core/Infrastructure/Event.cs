@@ -17,6 +17,7 @@ public abstract class Event : IEvent
 
     public string Id { get; init; } = Guid.NewGuid().ToString();
     public string Subject { get; init; }
+    public string SubjectPrefix { get; init; }
     public string EventTypeName { get; init; }
     public DateTimeOffset EventDate { get; init; } = DateTimeOffset.Now;
     public string TriggeredBy { get; init; }

@@ -44,6 +44,7 @@ public class StatusOrdersStateView : StateView, IStateView<OrderPlacedEvent>, IS
 
     public static string GetDefaultSubject(OrderStatus orderStatus) => $"StatusOrders_{orderStatus.ToString()}";
     public override string Subject => GetDefaultSubject(OrderStatus);
+    public override string SubjectPrefix => "StatusOrders_";
 
     public OrderStatus OrderStatus { get; init; }
     public ICollection<ShortOrder> Orders { get; init; } = new List<ShortOrder>();

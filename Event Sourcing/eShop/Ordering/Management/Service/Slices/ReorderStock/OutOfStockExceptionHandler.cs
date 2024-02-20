@@ -1,22 +1,23 @@
-﻿using eShop.Ordering.Management.Events;
+﻿using eShop.Ordering.Inquiry.StateViews;
+using eShop.Ordering.Management.Events;
 using eShop.Ordering.Management.Exceptions;
 using eShop.Ordering.Management.Service.Slices.ReorderStock;
 using Microsoft.Extensions.DependencyInjection;
 using vesa.Core.Abstractions;
-using vCI = vesa.Core.Infrastructure;
+using vesa.Core.Infrastructure;
 
 namespace eShop.Ordering.Management.Service.Slices.PlaceOrder;
 
-public class OutOfStockExceptionHandler : vCI.EventHandler<OutOfStockExceptionEvent>
+public class OutOfStockExceptionHandler : EventHandler<OutOfStockExceptionEvent, OrderStateView>
 {
-
-
     public OutOfStockExceptionHandler
     (
+        IFactory<OrderStateView> defaultStateViewFactory,
+        IDomainEvents domainEvents,
         IServiceProvider serviceProvider,
         IEventStore eventStore
     )
-        : base(serviceProvider, eventStore)
+        : base(defaultStateViewFactory, domainEvents, serviceProvider, eventStore)
     {
     }
 

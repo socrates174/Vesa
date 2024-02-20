@@ -41,6 +41,7 @@ public class DailyOrdersStateView : StateView, IStateView<OrderPlacedEvent>, ISt
 
     public static string GetDefaultSubject(DateTimeOffset stateViewDate) => $"DailyOrders_{stateViewDate.ToString("yyyy-mm-dd")}";
     public override string Subject => GetDefaultSubject(StateViewDate);
+    public override string SubjectPrefix => "DailyOrders_";
 
     public ICollection<ShortOrder> Orders { get; init; } = new List<ShortOrder>();
 

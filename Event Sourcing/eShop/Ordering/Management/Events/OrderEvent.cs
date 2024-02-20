@@ -23,7 +23,8 @@ public abstract class OrderEvent : Event
         }
         OrderStatus = orderStatus;
         TotalAmount = totalAmount;
-        Subject = $"Order_{orderNumber}";
+        SubjectPrefix = "Order_";
+        Subject = $"{SubjectPrefix}{orderNumber}";
     }
 
     public string OrderNumber { get; init; }

@@ -3,4 +3,5 @@
 public interface IHasSubject
 {
     string Subject { get; }
+    string SubjectPrefix { get; }
 }

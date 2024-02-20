@@ -23,6 +23,7 @@ public abstract class StateView : IStateView
 
     public string Id { get; init; } = Guid.NewGuid().ToString();
     public abstract string Subject { get; }
+    public abstract string SubjectPrefix { get; }
     public DateTimeOffset StateViewDate { get; init; } = DateTimeOffset.Now;
     public int LastEventSequenceNumber { get; init; }
 
