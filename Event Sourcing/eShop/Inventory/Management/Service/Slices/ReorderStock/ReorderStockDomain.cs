@@ -1,7 +1,7 @@
 ﻿using vesa.Core.Abstractions;
 using eShop.Inventory.Core.Events;
 
-namespace eShop.Inventory.Management.Service.Slices.ReorderStock;
+namespace eShop.Inventory.Management.Service.ReorderStock;
 
 public class ReorderStockDomain : IDomain<ReorderStockCommand>
 {

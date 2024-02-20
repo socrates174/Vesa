@@ -1,8 +1,8 @@
 using eShop.Ordering.Inquiry.API.Extensions;
-using eShop.Ordering.Inquiry.Service.Slices.GetCustomerOrders;
-using eShop.Ordering.Inquiry.Service.Slices.GetDailyOrders;
-using eShop.Ordering.Inquiry.Service.Slices.GetOrder;
-using eShop.Ordering.Inquiry.Service.Slices.GetStatusOrders;
+using eShop.Ordering.Inquiry.Service.GetCustomerOrders;
+using eShop.Ordering.Inquiry.Service.GetDailyOrders;
+using eShop.Ordering.Inquiry.Service.GetOrder;
+using eShop.Ordering.Inquiry.Service.GetStatusOrders;
 using eShop.Ordering.Inquiry.StateViews;
 
 var builder = WebApplication.CreateBuilder(args);

@@ -1,7 +1,7 @@
 using eShop.Ordering.Administration.API.Extensions;
-using eShop.Ordering.Administration.Service.Slices.BuildAllStateViews;
-using eShop.Ordering.Administration.Service.Slices.BuildStateViewInstance;
-using eShop.Ordering.Administration.Service.Slices.BuildStateViewInstances;
+using eShop.Ordering.Administration.Service.BuildAllStateViews;
+using eShop.Ordering.Administration.Service.BuildStateViewInstance;
+using eShop.Ordering.Administration.Service.BuildStateViewInstances;
 
 var builder = WebApplication.CreateBuilder(args);
 

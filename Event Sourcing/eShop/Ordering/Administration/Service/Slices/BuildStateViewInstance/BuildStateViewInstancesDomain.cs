@@ -4,7 +4,7 @@ using vesa.Core.Abstractions;
 using vesa.Core.Extensions;
 using vesa.Core.Helpers;
 
-namespace eShop.Ordering.Administration.Service.Slices.BuildStateViewInstance;
+namespace eShop.Ordering.Administration.Service.BuildStateViewInstance;
 
 public class BuildStateViewInstanceDomain : IDomain<BuildStateViewInstanceCommand>
 {

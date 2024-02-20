@@ -1,7 +1,7 @@
 ﻿using vesa.Core.Abstractions;
 using vesa.Core.Infrastructure;
 
-namespace eShop.Ordering.Administration.Service.Slices.BuildStateViewInstance;
+namespace eShop.Ordering.Administration.Service.BuildStateViewInstance;
 
 public class BuildStateViewInstanceHandler : CommandHandler<BuildStateViewInstanceCommand>
 {

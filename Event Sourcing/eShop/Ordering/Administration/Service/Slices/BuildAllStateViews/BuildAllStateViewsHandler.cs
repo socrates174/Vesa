@@ -1,7 +1,7 @@
 ﻿using vesa.Core.Abstractions;
 using vesa.Core.Infrastructure;
 
-namespace eShop.Ordering.Administration.Service.Slices.BuildAllStateViews;
+namespace eShop.Ordering.Administration.Service.BuildAllStateViews;
 
 public class BuildAllStateViewsHandler : CommandHandler<BuildAllStateViewsCommand>
 {

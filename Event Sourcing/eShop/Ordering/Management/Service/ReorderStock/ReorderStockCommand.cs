@@ -1,25 +1,21 @@
-﻿using eShop.Inventory.Data.ValueObjects;
-using vesa.Core.Infrastructure;
+﻿using vesa.Core.Infrastructure;
+using eShop.Ordering.Data.Models;
 
-namespace eShop.Inventory.Management.Service.ReorderStock;
+namespace eShop.Ordering.Management.Service.ReorderStock;
 
 public class ReorderStockCommand : Command
 {
-    public ReorderStockCommand
-    (
-        string orderNumber,
-        IEnumerable<OrderItem> items,
-        string triggeredBy,
-        int lastEventSequenceNumber
-    )
-        : base(triggeredBy, lastEventSequenceNumber)
-    {
-        OrderNumber = orderNumber;
-        foreach (var item in items)
-        {
-            Items.Add(item);
-        }
-    }
+    //public ReorderStockCommand
+    //(
+    //    string orderNumber,
+    //    IList<OrderItem> items,
+    //    string triggeredBy,
+    //    int lastEventSequenceNumber
+    //)
+    //    : base(triggeredBy, lastEventSequenceNumber)
+    //{
+
+    //}
 
     public ReorderStockCommand
     (
@@ -29,9 +25,14 @@ public class ReorderStockCommand : Command
         string triggeredBy,
         int lastEventSequenceNumber
     )
-        : this(orderNumber, items, triggeredBy, lastEventSequenceNumber)
+        : base(triggeredBy, lastEventSequenceNumber)
     {
         Id = id;
+        OrderNumber = orderNumber;
+        foreach (var item in items)
+        {
+            Items.Add(item);
+        }
     }
 
     public string OrderNumber { get; init; }

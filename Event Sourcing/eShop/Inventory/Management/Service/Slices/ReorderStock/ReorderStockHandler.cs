@@ -5,7 +5,7 @@ using eShop.Inventory.Core.IntegrationEvents;
 using eShop.Inventory.Data.Models;
 using eShop.Inventory.Management.Core.Abstractions;
 
-namespace eShop.Inventory.Management.Service.Slices.ReorderStock;
+namespace eShop.Inventory.Management.Service.ReorderStock;
 
 public class ReorderStockHandler : CommandHandler<ReorderStockCommand>, IEventHandler<StockReorderedIntegrationEvent>, IEventHandler<StockReorderedEvent>
 {

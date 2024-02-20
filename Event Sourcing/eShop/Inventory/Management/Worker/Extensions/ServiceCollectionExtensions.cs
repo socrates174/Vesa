@@ -8,7 +8,7 @@ using eShop.Inventory.Core.Events;
 using eShop.Inventory.Core.IntegrationEvents;
 using eShop.Inventory.Management.Core.Abstractions;
 using eShop.Inventory.Management.Core.Infrastructure;
-using eShop.Inventory.Management.Service.Slices.ReorderStock;
+using eShop.Inventory.Management.Service.ReorderStock;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using vesa.Blob.Extensions;

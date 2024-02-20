@@ -2,7 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using vesa.Core.Abstractions;
 
-namespace eShop.Ordering.Administration.Service.Slices.BuildAllStateViews;
+namespace eShop.Ordering.Administration.Service.BuildAllStateViews;
 
 public class BuildAllStateViewsDomain : IDomain<BuildAllStateViewsCommand>
 {

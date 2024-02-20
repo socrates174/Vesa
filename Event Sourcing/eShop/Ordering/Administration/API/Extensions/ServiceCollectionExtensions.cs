@@ -1,6 +1,6 @@
-﻿using eShop.Ordering.Administration.Service.Slices.BuildAllStateViews;
-using eShop.Ordering.Administration.Service.Slices.BuildStateViewInstance;
-using eShop.Ordering.Administration.Service.Slices.BuildStateViewInstances;
+﻿using eShop.Ordering.Administration.Service.BuildAllStateViews;
+using eShop.Ordering.Administration.Service.BuildStateViewInstance;
+using eShop.Ordering.Administration.Service.BuildStateViewInstances;
 using eShop.Ordering.Infrastructure.SQL.Context;
 using eShop.Ordering.Infrastructure.SQL.Entities;
 using eShop.Ordering.Inquiry.StateViews;

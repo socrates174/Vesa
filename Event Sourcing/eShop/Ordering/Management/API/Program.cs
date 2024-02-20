@@ -1,9 +1,9 @@
 using eShop.Ordering.Inquiry.StateViews;
 using eShop.Ordering.Management.API.Extensions;
-using eShop.Ordering.Management.Service.Slices.CancelOrder;
-using eShop.Ordering.Management.Service.Slices.PlaceOrder;
-using eShop.Ordering.Management.Service.Slices.ReorderStock;
-using eShop.Ordering.Management.Service.Slices.ReturnOrder;
+using eShop.Ordering.Management.Service.CancelOrder;
+using eShop.Ordering.Management.Service.PlaceOrder;
+using eShop.Ordering.Management.Service.ReorderStock;
+using eShop.Ordering.Management.Service.ReturnOrder;
 
 var builder = WebApplication.CreateBuilder(args);
 
