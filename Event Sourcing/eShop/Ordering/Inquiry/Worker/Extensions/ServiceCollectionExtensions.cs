@@ -45,7 +45,7 @@ public static class ServiceCollectionExtensions
                 services.AddBlobEventStoreListener(configuration);
                 break;
             case "SQL":
-                services.AddSQLStore<OrderingContext>(configuration, ServiceLifetime.Singleton);
+                services.AddSQLStore<OrderingContext>(configuration, ServiceLifetime.Scoped);
                 services.AddSQLEventListeners(configuration);
                 services.AddTransient<IEventStore, SQLEventStore>();
                 break;
@@ -64,7 +64,7 @@ public static class ServiceCollectionExtensions
                 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
                 if (configuration["EventStore"] != "SQL")
                 {
-                    services.AddSQLStore<OrderingContext>(configuration, ServiceLifetime.Singleton);
+                    services.AddSQLStore<OrderingContext>(configuration, ServiceLifetime.Scoped);
                 }
                 services.AddTransient(typeof(IStateViewStore<OrderStateView>), typeof(SQLStateViewStore<OrderStateViewJson, OrderStateView>));
                 services.AddTransient(typeof(IStateViewStore<CustomerOrdersStateView>), typeof(SQLStateViewStore<CustomerOrdersStateViewJson, CustomerOrdersStateView>));
