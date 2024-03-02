@@ -1,5 +1,5 @@
-﻿using vesa.Core.Infrastructure;
-using eShop.Inventory.Data.ValueObjects;
+﻿using eShop.Inventory.Data.ValueObjects;
+using vesa.Core.Infrastructure;
 
 namespace eShop.Inventory.Core.IntegrationEvents;
 
@@ -19,10 +19,10 @@ public class StockReorderedIntegrationEvent : Event
         {
             Items.Add(item);
         }
-        Subject = GetDefaultSubject(OrderNumber);
     }
 
-    public static string GetDefaultSubject(string orderNumber) => $"StockReorder_{orderNumber}";
+    public override string Subject => $"{SubjectPrefix}{OrderNumber ?? string.Empty}";
+    public override string SubjectPrefix => "StockReorder_";
 
     public string OrderNumber { get; init; }
     public IList<OrderItem> Items { get; init; } = new List<OrderItem>();

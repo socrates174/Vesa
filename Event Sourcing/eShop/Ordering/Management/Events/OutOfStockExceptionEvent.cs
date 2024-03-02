@@ -13,6 +13,8 @@ public class OutOfStockExceptionEvent : ExceptionEvent
     )
         : base(exception, triggeredBy, idempotencyToken)
     {
-        Subject = $"Order_{exception.OrderNumber}";
     }
+
+    public override string Subject => $"{SubjectPrefix}{(Exception as OutOfStockException)?.OrderNumber ?? string.Empty}";
+    public override string SubjectPrefix => "Order_";
 }

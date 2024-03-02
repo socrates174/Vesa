@@ -13,7 +13,10 @@ public class OrderNotCancellableExceptionEvent : ExceptionEvent
     )
         : base(exception, triggeredBy, idempotencyToken)
     {
-        Subject = $"Order_{exception.OrderNumber}";
     }
+
+    public override string Subject => $"{SubjectPrefix}{(Exception as OrderNotCancellableException)?.OrderNumber ?? string.Empty}";
+    public override string SubjectPrefix => "Order_";
+
 }
 

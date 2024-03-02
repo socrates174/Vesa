@@ -16,4 +16,6 @@ public class StateViewInstancesBuiltEvent : Event
     }
 
     public string StateViewName { get; }
+    public override string Subject => $"{SubjectPrefix}{StateViewName}";
+    public override string SubjectPrefix => "StateViewInstancesBuilt_";
 }

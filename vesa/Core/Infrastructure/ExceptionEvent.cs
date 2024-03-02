@@ -1,6 +1,6 @@
 ﻿namespace vesa.Core.Infrastructure;
 
-public class ExceptionEvent : Event
+public abstract class ExceptionEvent : Event
 {
     public ExceptionEvent()
     {

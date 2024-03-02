@@ -23,9 +23,10 @@ public abstract class OrderEvent : Event
         }
         OrderStatus = orderStatus;
         TotalAmount = totalAmount;
-        SubjectPrefix = "Order_";
-        Subject = $"{SubjectPrefix}{orderNumber}";
     }
+
+    public override string Subject => $"{SubjectPrefix}{OrderNumber ?? string.Empty}";
+    public override string SubjectPrefix => "Order_";
 
     public string OrderNumber { get; init; }
     public string CustomerNumber { get; init; }

@@ -4,6 +4,8 @@ namespace eShop.Ordering.Administration.Events;
 public class StateViewInstanceBuiltEvent : Event
 
 {
+    private readonly string _subject;
+
     public StateViewInstanceBuiltEvent
     (
         string stateViewName,
@@ -14,9 +16,10 @@ public class StateViewInstanceBuiltEvent : Event
         : base(triggeredBy, idempotencyToken)
     {
         StateViewName = stateViewName;
-        Subject = subject;
+        _subject = subject;
     }
 
     public string StateViewName { get; }
-    public string Subject { get; }
+    public override string Subject => $"{SubjectPrefix}{_subject}";
+    public override string SubjectPrefix => "StateViewInstanceBuilt_";
 }
