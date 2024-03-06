@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\vesa\Core\vesa.Core.csproj" />
     <ProjectReference Include="..\..\Data\eShop.Ordering.Data.csproj" />
   </ItemGroup>
 
