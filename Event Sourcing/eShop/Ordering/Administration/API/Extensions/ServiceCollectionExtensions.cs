@@ -1,8 +1,8 @@
 ﻿using eShop.Ordering.Administration.Service.BuildAllStateViews;
 using eShop.Ordering.Administration.Service.BuildStateViewInstance;
 using eShop.Ordering.Administration.Service.BuildStateViewInstances;
-using eShop.Ordering.Infrastructure.SQL.Context;
-using eShop.Ordering.Infrastructure.SQL.Entities;
+using eShop.Ordering.Database.SQL.Context;
+using eShop.Ordering.Database.SQL.Entities;
 using eShop.Ordering.Inquiry.StateViews;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;

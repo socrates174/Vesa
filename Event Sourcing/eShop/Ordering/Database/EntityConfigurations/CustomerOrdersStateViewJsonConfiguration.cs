@@ -1,10 +1,10 @@
-﻿using eShop.Ordering.Infrastructure.SQL.Entities;
+﻿using eShop.Ordering.Database.SQL.Entities;
 using eShop.Ordering.Inquiry.StateViews;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using vesa.SQL.Infrastructure;
 
-namespace eShop.Ordering.Infrastructure.SQL.EntityConfigurations;
+namespace eShop.Ordering.Database.SQL.EntityConfigurations;
 
 public class CustomerOrdersStateViewJsonConfiguration : StateViewJsonConfiguration<CustomerOrdersStateViewJson, CustomerOrdersStateView>
 {

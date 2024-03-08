@@ -1,5 +1,5 @@
-﻿using eShop.Ordering.Infrastructure.SQL.Context;
-using eShop.Ordering.Infrastructure.SQL.Entities;
+﻿using eShop.Ordering.Database.SQL.Context;
+using eShop.Ordering.Database.SQL.Entities;
 using eShop.Ordering.Inquiry.StateViews;
 using eShop.Ordering.Management.Application.Abstractions;
 using eShop.Ordering.Management.Application.Infrastructure;

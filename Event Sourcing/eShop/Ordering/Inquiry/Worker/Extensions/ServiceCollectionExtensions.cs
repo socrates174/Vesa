@@ -1,5 +1,5 @@
-﻿using eShop.Ordering.Infrastructure.SQL.Context;
-using eShop.Ordering.Infrastructure.SQL.Entities;
+﻿using eShop.Ordering.Database.SQL.Context;
+using eShop.Ordering.Database.SQL.Entities;
 using eShop.Ordering.Inquiry.Service.GetCustomerOrders;
 using eShop.Ordering.Inquiry.Service.GetDailyOrders;
 using eShop.Ordering.Inquiry.Service.GetOrder;

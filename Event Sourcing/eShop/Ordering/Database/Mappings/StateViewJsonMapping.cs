@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
-using eShop.Ordering.Infrastructure.SQL.Entities;
+using eShop.Ordering.Database.SQL.Entities;
 
-namespace eShop.Ordering.Infrastructure.SQL.Mappings;
+namespace eShop.Ordering.Database.SQL.Mappings;
 
 public class StateViewJsonMapping : Profile
 {

@@ -1,10 +1,10 @@
-﻿using eShop.Ordering.Infrastructure.SQL.Entities;
-using eShop.Ordering.Infrastructure.SQL.EntityConfigurations;
+﻿using eShop.Ordering.Database.SQL.Entities;
+using eShop.Ordering.Database.SQL.EntityConfigurations;
 using Microsoft.EntityFrameworkCore;
 using vesa.Core.Infrastructure;
 using vesa.SQL.Infrastructure;
 
-namespace eShop.Ordering.Infrastructure.SQL.Context;
+namespace eShop.Ordering.Database.SQL.Context;
 
 public class OrderingContext : DbContext
 {

@@ -1,7 +1,7 @@
 ﻿using eShop.Ordering.Inquiry.StateViews;
 using vesa.Core.Abstractions;
 
-namespace eShop.Ordering.Infrastructure.SQL.Entities;
+namespace eShop.Ordering.Database.SQL.Entities;
 
 public class StatusOrdersStateViewJson : StateViewJson<StatusOrdersStateView>
 {
