@@ -4,6 +4,8 @@
     <TargetFramework>net70</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Version>1.7.2</Version>
   </PropertyGroup>
 
 </Project>
