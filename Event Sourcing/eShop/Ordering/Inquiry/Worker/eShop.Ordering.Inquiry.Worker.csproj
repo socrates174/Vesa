@@ -28,7 +28,7 @@
 
     <ProjectReference Include="..\..\..\..\..\vesa\SQL\vesa.SQL.csproj" />
 
-    <ProjectReference Include="..\..\Database\eShop.Ordering.Database.SQL.csproj" />
+    <ProjectReference Include="..\..\Database\SQL\eShop.Ordering.Database.SQL.csproj" />
 
     <ProjectReference Include="..\..\Management\Events\eShop.Ordering.Management.Events.csproj" />
     <ProjectReference Include="..\Service\eShop.Ordering.Inquiry.Service.csproj" />

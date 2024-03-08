@@ -11,9 +11,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\vesa\SQL\vesa.SQL.csproj" />
-    <ProjectReference Include="..\Data\eShop.Ordering.Data.csproj" />
-    <ProjectReference Include="..\Inquiry\StateViews\eShop.Ordering.Inquiry.StateViews.csproj" />
+    <ProjectReference Include="..\..\..\..\..\vesa\SQL\vesa.SQL.csproj" />
+    <ProjectReference Include="..\..\Data\eShop.Ordering.Data.csproj" />
+    <ProjectReference Include="..\..\Inquiry\StateViews\eShop.Ordering.Inquiry.StateViews.csproj" />
   </ItemGroup>
 
 </Project>

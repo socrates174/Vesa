@@ -21,7 +21,7 @@
     <ProjectReference Include="..\..\..\..\..\vesa\File\vesa.File.csproj" />
     <ProjectReference Include="..\..\..\..\..\vesa\Kafka\vesa.Kafka.csproj" />
     <ProjectReference Include="..\..\..\..\..\vesa\SQL\vesa.SQL.csproj" />
-    <ProjectReference Include="..\..\Database\eShop.Ordering.Database.SQL.csproj" />
+    <ProjectReference Include="..\..\Database\SQL\eShop.Ordering.Database.SQL.csproj" />
     <ProjectReference Include="..\..\Inquiry\StateViews\eShop.Ordering.Inquiry.StateViews.csproj" />
     <ProjectReference Include="..\Service\eShop.Ordering.Management.Service.csproj" />
   </ItemGroup>

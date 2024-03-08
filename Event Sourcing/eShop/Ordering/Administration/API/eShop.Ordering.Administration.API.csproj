@@ -18,7 +18,8 @@
     <ProjectReference Include="..\..\..\..\..\vesa\Core\vesa.Core.csproj" />
     <ProjectReference Include="..\..\..\..\..\vesa\Cosmos\vesa.Cosmos.csproj" />
     <ProjectReference Include="..\..\..\..\..\vesa\File\vesa.File.csproj" />
-    <ProjectReference Include="..\..\Database\eShop.Ordering.Database.SQL.csproj" />
+    <ProjectReference Include="..\..\..\..\..\vesa\SQL\vesa.SQL.csproj" />
+    <ProjectReference Include="..\..\Database\SQL\eShop.Ordering.Database.SQL.csproj" />
     <ProjectReference Include="..\..\Data\eShop.Ordering.Data.csproj" />
     <ProjectReference Include="..\..\Inquiry\StateViews\eShop.Ordering.Inquiry.StateViews.csproj" />
     <ProjectReference Include="..\Service\eShop.Ordering.Administration.Service.csproj" />
