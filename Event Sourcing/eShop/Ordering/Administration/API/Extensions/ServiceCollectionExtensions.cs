@@ -13,6 +13,8 @@ using vesa.Cosmos.Infrastructure;
 using vesa.File.Infrastructure;
 using vesa.SQL.Extensions;
 using vesa.SQL.Infrastructure;
+using vesa.File.Extensions;
+using vesa.Blob.Extensions;
 
 namespace eShop.Ordering.Administration.API.Extensions;
 
@@ -26,6 +28,26 @@ public static class ServiceCollectionExtensions
             Formatting = Formatting.Indented,
             ContractResolver = new CamelCasePropertyNamesContractResolver()
         };
+
+        // EventStore and EventStoreListener Registration
+        switch (configuration["EventStore"])
+        {
+            case "File":
+                services.AddFileEventStore(configuration);
+                services.AddFileEventListeners(configuration);
+                break;
+            case "Blob":
+                services.AddBlobEventStore(configuration);
+                break;
+            case "SQL":
+                services.AddSQLStore<OrderingContext>(configuration);
+                services.AddTransient<IEventStore, SQLEventStore>();
+                break;
+            case "Cosmos":
+                services.AddCosmosEventStore(configuration);
+                //services.AddCosmosEventStoreListener(configuration);
+                break;
+        }
 
         switch (configuration["StateViewStore"])
         {

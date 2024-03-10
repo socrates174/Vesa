@@ -15,6 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\..\..\vesa\Blob\vesa.Blob.csproj" />
     <ProjectReference Include="..\..\..\..\..\vesa\Core\vesa.Core.csproj" />
     <ProjectReference Include="..\..\..\..\..\vesa\Cosmos\vesa.Cosmos.csproj" />
     <ProjectReference Include="..\..\..\..\..\vesa\File\vesa.File.csproj" />

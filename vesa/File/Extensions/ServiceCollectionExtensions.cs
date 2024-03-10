@@ -48,11 +48,11 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddFileEventListeners(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSingleton<IEventListener, FileEventStoreListener>();
-        services.AddSingleton<FileEventStoreListener>();
+        services.AddScoped<IEventListener, FileEventStoreListener>();
+        services.AddScoped<FileEventStoreListener>();
         //services.AddSingleton<IEventListener, FileEventHubListener>();
         //services.AddSingleton<FileEventHubListener>();
-        services.AddSingleton<IEventProcessor, EventProcessor>();
+        services.AddScoped<IEventProcessor, EventProcessor>();
         return services;
     }
 
