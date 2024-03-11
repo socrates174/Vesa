@@ -8,5 +8,6 @@
         string TriggeredBy { get; }
         int SequenceNumber { get; }
         string IdempotencyToken { get; }
+        string Version { get; }
     }
 }
