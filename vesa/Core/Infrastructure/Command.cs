@@ -18,4 +18,5 @@ public abstract class Command : ICommand
     public DateTimeOffset CommandDate { get; init; } = DateTimeOffset.Now;
     public string TriggeredBy { get; init; }
     public int LastEventSequenceNumber { get; init; }
+    public string Version { get; init; }
 }
