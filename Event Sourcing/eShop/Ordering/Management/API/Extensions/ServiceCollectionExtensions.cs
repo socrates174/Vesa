@@ -45,7 +45,7 @@ public static class ServiceCollectionExtensions
                 break;
             case "SQL":
                 services.AddSQLStore<OrderingContext>(configuration);
-                services.AddTransient<IEventStore, SQLEventStore>();
+                services.AddScoped<IEventStore, SQLEventStore>();
                 break;
             case "Cosmos":
                 services.AddCosmosEventStore(configuration);

@@ -18,6 +18,8 @@
     <ProjectReference Include="..\..\..\..\..\vesa\EventHub\vesa.EventHub.csproj" />
     <ProjectReference Include="..\..\..\..\..\vesa\File\vesa.File.csproj" />
     <ProjectReference Include="..\..\..\..\..\vesa\Kafka\vesa.Kafka.csproj" />
+    <ProjectReference Include="..\..\..\..\..\vesa\SQL\vesa.SQL.csproj" />
+    <ProjectReference Include="..\..\..\Ordering\Database\SQL\eShop.Ordering.Database.SQL.csproj" />
     <ProjectReference Include="..\..\Core\eShop.Inventory.Core.csproj" />
     <ProjectReference Include="..\Service\eShop.Inventory.Management.Service.csproj" />
   </ItemGroup>

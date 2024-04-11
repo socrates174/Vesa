@@ -29,7 +29,7 @@ public static class ServiceCollectionExtensions
         );
         services.AddSingleton(eventHubProducerClient);
 
-        services.AddSingleton<IEventPublisher, EventHubPublisher>();
+        services.AddScoped<IEventPublisher, EventHubPublisher>();
 
         return services;
     }

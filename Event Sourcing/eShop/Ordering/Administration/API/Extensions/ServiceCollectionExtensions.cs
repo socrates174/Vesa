@@ -41,7 +41,7 @@ public static class ServiceCollectionExtensions
                 break;
             case "SQL":
                 services.AddSQLStore<OrderingContext>(configuration);
-                services.AddTransient<IEventStore, SQLEventStore>();
+                services.AddScoped<IEventStore, SQLEventStore>();
                 break;
             case "Cosmos":
                 services.AddCosmosEventStore(configuration);
@@ -53,7 +53,7 @@ public static class ServiceCollectionExtensions
         {
             case "File":
                 services.AddScoped(typeof(IStateViewStore<>), typeof(FileStateViewStore<>));
-                services.AddSingleton<IEventProcessor, EventProcessor>();
+                services.AddScoped<IEventProcessor, EventProcessor>();
                 break;
             case "SQL":
                 services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
@@ -69,7 +69,7 @@ public static class ServiceCollectionExtensions
                 services.AddCosmosContainerConfiguration<IStateView>(configuration, "StateViewCosmosContainerConfiguration");
                 services.InitializeDatabase(configuration);
                 services.AddTransient(typeof(IStateViewStore<>), typeof(CosmosStateViewStore<>));
-                services.AddSingleton<IEventProcessor, EventProcessor>();
+                services.AddScoped<IEventProcessor, EventProcessor>();
                 break;
         }
 

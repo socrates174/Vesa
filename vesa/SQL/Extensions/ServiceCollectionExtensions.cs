@@ -13,17 +13,17 @@ public static class ServiceCollectionExtensions
         where TDbContext : DbContext
     {
         services.AddDbContext<DbContext, TDbContext>(opts => opts.UseSqlServer(configuration[configuration["SqlConnectionKey"]]), serviceLifeTime);
-        using (var scope = services.BuildServiceProvider().CreateScope())
-        {
-            var dbContext = scope.ServiceProvider.GetRequiredService<DbContext>();
-            dbContext.Database.EnsureCreated();
-        }
+        //using (var scope = services.BuildServiceProvider().CreateScope())
+        //{
+            //var dbContext = scope.ServiceProvider.GetRequiredService<DbContext>();
+            //dbContext.Database.EnsureCreated();
+        //}
         return services;
     }
 
     public static IServiceCollection AddSQLEventListeners(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddSingleton<IEventListener>
+        services.AddScoped<IEventListener>
         (
             sp => new SQLEventStoreListener
             (
@@ -32,7 +32,7 @@ public static class ServiceCollectionExtensions
                 sp.GetService<ILogger<SQLEventStoreListener>>()
             )
         );
-        services.AddSingleton<IEventProcessor, EventProcessor>();
+        services.AddScoped<IEventProcessor, EventProcessor>();
         return services;
     }
 }

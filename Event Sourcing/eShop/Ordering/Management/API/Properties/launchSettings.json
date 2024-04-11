@@ -20,7 +20,7 @@
         "COSMOSDB-URL": "https://localhost:8081",
         "COSMOSDB-KEY": "C2y6yDjf5/R+ob0N8A7Cgv30VRDJIWEHLM+4QDU5DE2nQ9nDuVTqobD4b8mGGyPMbIZnqyMsEcaGQy67XIw/Jw==",
         "LOCKDB-CONNECTION": "",
-        "SQL-CONNECTION": "Server=localhost\\SQLEXPRESS;Database=eShopOrdering;Trusted_Connection=True;TrustServerCertificate=true",
+        "SQL-CONNECTION": "Server=LAPTOP-O2LNV17G\\SQLEXPRESS;Database=eShopOrdering;Trusted_Connection=True;TrustServerCertificate=true",
         "BLOB-CONNECTION": "DefaultEndpointsProtocol=https;AccountName=sadeviocloudsystems;AccountKey=SGDx/+r6t2ZJ4KbQMk/B7Q1YfhwgQPwCfiwUASkO2m1m0EF2MCkyCFks3VF+oUFcHiC6j23l+kL5+AStiewBQg==;EndpointSuffix=core.windows.net",
         "KAFKA-USERNAME": "bm90ZWQtY3JhcHBpZS04MDYzJEK1PDeoMWG2JcODQWiq2IBDe6NyS2diRCaqVEU",
         "KAFKA-PASSWORD": "9d19cc22eb21431e9a67e15f854da5a0"

@@ -169,12 +169,12 @@ public static class ServiceCollectionExtensions
 
     public static IServiceCollection AddCosmosEventStoreListener(this IServiceCollection services, IConfiguration configuration)
     {
-        //services.AddLeaseCosmosContainer(configuration);
+        services.AddLeaseCosmosContainer(configuration);
         services.AddChangeFeedProcessorConfiguration(configuration);
-        services.AddSingleton<IChangeFeedProcessorFactory<JObject>, EventStoreChangeFeedProcessorFactory>();
-        services.AddSingleton<IEventListener, CosmosEventStoreListener>();
-        services.AddSingleton<CosmosEventStoreListener>();
-        services.AddSingleton<IEventProcessor, EventProcessor>();
+        services.AddScoped<IChangeFeedProcessorFactory<JObject>, EventStoreChangeFeedProcessorFactory>();
+        services.AddScoped<IEventListener, CosmosEventStoreListener>();
+        services.AddScoped<CosmosEventStoreListener>();
+        services.AddScoped<IEventProcessor, EventProcessor>();
         return services;
     }
 

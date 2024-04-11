@@ -47,14 +47,15 @@ public static class ServiceCollectionExtensions
             case "SQL":
                 services.AddSQLStore<OrderingContext>(configuration, ServiceLifetime.Scoped);
                 services.AddSQLEventListeners(configuration);
-                services.AddTransient<IEventStore, SQLEventStore>();
+                services.AddScoped<IEventStore, SQLEventStore>();
                 break;
             case "Cosmos":
+                services.AddCosmosStateViewStore(configuration, "StateViewCosmosContainerConfiguration");
                 services.AddCosmosEventStore(configuration);
                 services.AddCosmosEventStoreListener(configuration);
                 break;
         }
-
+  
         switch (configuration["StateViewStore"])
         {
             case "File":
@@ -66,10 +67,10 @@ public static class ServiceCollectionExtensions
                 {
                     services.AddSQLStore<OrderingContext>(configuration, ServiceLifetime.Scoped);
                 }
-                services.AddTransient(typeof(IStateViewStore<OrderStateView>), typeof(SQLStateViewStore<OrderStateViewJson, OrderStateView>));
-                services.AddTransient(typeof(IStateViewStore<CustomerOrdersStateView>), typeof(SQLStateViewStore<CustomerOrdersStateViewJson, CustomerOrdersStateView>));
-                services.AddTransient(typeof(IStateViewStore<StatusOrdersStateView>), typeof(SQLStateViewStore<StatusOrdersStateViewJson, StatusOrdersStateView>));
-                services.AddTransient(typeof(IStateViewStore<DailyOrdersStateView>), typeof(SQLStateViewStore<DailyOrdersStateViewJson, DailyOrdersStateView>));
+                services.AddScoped(typeof(IStateViewStore<OrderStateView>), typeof(SQLStateViewStore<OrderStateViewJson, OrderStateView>));
+                services.AddScoped(typeof(IStateViewStore<CustomerOrdersStateView>), typeof(SQLStateViewStore<CustomerOrdersStateViewJson, CustomerOrdersStateView>));
+                services.AddScoped(typeof(IStateViewStore<StatusOrdersStateView>), typeof(SQLStateViewStore<StatusOrdersStateViewJson, StatusOrdersStateView>));
+                services.AddScoped(typeof(IStateViewStore<DailyOrdersStateView>), typeof(SQLStateViewStore<DailyOrdersStateViewJson, DailyOrdersStateView>));
                 break;
             case "Cosmos":
                 if (configuration["EventStore"] != "Cosmos")
@@ -84,24 +85,24 @@ public static class ServiceCollectionExtensions
         }
 
         // OrderStateView updaters
-        services.AddTransient<IEventHandler<OrderPlacedEvent>, OrderStateViewUpdater>();
-        services.AddTransient<IEventHandler<OrderCancelledEvent>, OrderStateViewUpdater>();
-        services.AddTransient<IEventHandler<OrderReturnedEvent>, OrderStateViewUpdater>();
+        services.AddScoped<IEventHandler<OrderPlacedEvent>, OrderStateViewUpdater>();
+        services.AddScoped<IEventHandler<OrderCancelledEvent>, OrderStateViewUpdater>();
+        services.AddScoped<IEventHandler<OrderReturnedEvent>, OrderStateViewUpdater>();
 
         // CustomerOrdersStateView updaters
-        services.AddTransient<IEventHandler<OrderPlacedEvent>, CustomerOrdersStateViewUpdater>();
-        services.AddTransient<IEventHandler<OrderCancelledEvent>, CustomerOrdersStateViewUpdater>();
-        services.AddTransient<IEventHandler<OrderReturnedEvent>, CustomerOrdersStateViewUpdater>();
+        services.AddScoped<IEventHandler<OrderPlacedEvent>, CustomerOrdersStateViewUpdater>();
+        services.AddScoped<IEventHandler<OrderCancelledEvent>, CustomerOrdersStateViewUpdater>();
+        services.AddScoped<IEventHandler<OrderReturnedEvent>, CustomerOrdersStateViewUpdater>();
 
         // StatusOrdersStateView updaters
-        services.AddTransient<IEventHandler<OrderPlacedEvent>, StatusOrdersStateViewUpdater>();
-        services.AddTransient<IEventHandler<OrderCancelledEvent>, StatusOrdersStateViewUpdater>();
-        services.AddTransient<IEventHandler<OrderReturnedEvent>, StatusOrdersStateViewUpdater>();
+        services.AddScoped<IEventHandler<OrderPlacedEvent>, StatusOrdersStateViewUpdater>();
+        services.AddScoped<IEventHandler<OrderCancelledEvent>, StatusOrdersStateViewUpdater>();
+        services.AddScoped<IEventHandler<OrderReturnedEvent>, StatusOrdersStateViewUpdater>();
 
         //DailyOrdersStateView updaters
-        services.AddTransient<IEventHandler<OrderPlacedEvent>, DailyOrdersStateViewUpdater>();
-        services.AddTransient<IEventHandler<OrderCancelledEvent>, DailyOrdersStateViewUpdater>();
-        services.AddTransient<IEventHandler<OrderReturnedEvent>, DailyOrdersStateViewUpdater>();
+        services.AddScoped<IEventHandler<OrderPlacedEvent>, DailyOrdersStateViewUpdater>();
+        services.AddScoped<IEventHandler<OrderCancelledEvent>, DailyOrdersStateViewUpdater>();
+        services.AddScoped<IEventHandler<OrderReturnedEvent>, DailyOrdersStateViewUpdater>();
 
         // Event observers
         services.AddScoped<IEventObservers, EventObservers<OrderPlacedEvent>>();

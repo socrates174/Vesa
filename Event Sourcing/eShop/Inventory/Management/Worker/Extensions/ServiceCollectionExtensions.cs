@@ -12,7 +12,9 @@ using eShop.Inventory.Management.Service.ReorderStock;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using vesa.Blob.Extensions;
-
+using vesa.SQL.Infrastructure;
+using eShop.Ordering.Database.SQL.Context;
+using vesa.SQL.Extensions;
 namespace eShop.Inventory.Management.Worker.Extensions;
 
 public static class ServiceCollectionExtensions
@@ -63,9 +65,14 @@ public static class ServiceCollectionExtensions
                 services.AddCosmosEventStore(configuration);
                 services.AddCosmosEventStoreListener(configuration);
                 break;
+            case "SQL":
+                services.AddSQLStore<OrderingContext>(configuration, ServiceLifetime.Scoped);
+                services.AddSQLEventListeners(configuration);
+                services.AddScoped<IEventStore, SQLEventStore>();
+                break;
         }
 
-
+     
         switch (configuration["MessageHub"])
         {
             case "File":
@@ -98,8 +105,8 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IEventHandler<StockReorderedEvent>, ReorderStockHandler>();
 
         // Event observeds
-        services.AddSingleton<IEventObservers, EventObservers<StockReorderedIntegrationEvent>>();
-        services.AddSingleton<IEventObservers, EventObservers<StockReorderedEvent>>();
+        services.AddScoped<IEventObservers, EventObservers<StockReorderedIntegrationEvent>>();
+        services.AddScoped<IEventObservers, EventObservers<StockReorderedEvent>>();
 
         // Miscellaneous registrations
         services.AddTransient<IEmailSender, EmailSender>();
