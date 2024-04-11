@@ -23,4 +23,5 @@ public abstract class Event : IEvent
     public string TriggeredBy { get; init; }
     public int SequenceNumber { get; init; } = 0;
     public string IdempotencyToken { get; init; }
+    public string Version { get; init; } = "1.0";
 }

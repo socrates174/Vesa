@@ -6,4 +6,5 @@ public interface ICommand
     DateTimeOffset CommandDate { get; }
     string TriggeredBy { get; }
     int LastEventSequenceNumber { get; }
+    string Version { get; }
 }
