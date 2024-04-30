@@ -146,7 +146,7 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IEventHandler<OrderCancelledEvent>, EventPropagationHandler<OrderCancelledEvent, OrderStateView>>();
         services.AddScoped<IEventHandler<OrderReturnedEvent>, EventPropagationHandler<OrderReturnedEvent, OrderStateView>>();
         services.AddScoped<IEventHandler<OutOfStockExceptionEvent>, OutOfStockExceptionHandler>();
-        services.AddScoped<IEventHandler<StockReorderedEvent>, EventPublicationHandler<StockReorderedEvent, OrderStateView>>();
+        services.AddScoped<IEventHandler<StockReorderedEvent>, EventPublicationHandler<StockReorderedEvent>>();
 
 
         // Event observers

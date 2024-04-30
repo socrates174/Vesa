@@ -1,26 +1,23 @@
-﻿using eShop.Ordering.Inquiry.StateViews;
-using eShop.Ordering.Management.Events;
+﻿using eShop.Ordering.Management.Events;
 using eShop.Ordering.Management.Exceptions;
 using Microsoft.Extensions.DependencyInjection;
 using vesa.Core.Abstractions;
-using vesa.Core.Infrastructure;
 
 namespace eShop.Ordering.Management.Service.ReorderStock;
 
-public class OutOfStockExceptionHandler : EventPropagationHandler<OutOfStockExceptionEvent, OrderStateView>
+public class OutOfStockExceptionHandler : IEventHandler<OutOfStockExceptionEvent>
 {
+    private readonly IServiceProvider _serviceProvider;
+
     public OutOfStockExceptionHandler
     (
-        IFactory<OrderStateView> defaultStateViewFactory,
-        IDomainEvents domainEvents,
-        IServiceProvider serviceProvider,
-        IEventStore eventStore
+        IServiceProvider serviceProvider
     )
-        : base(defaultStateViewFactory, domainEvents, serviceProvider, eventStore)
     {
+        _serviceProvider = serviceProvider;
     }
 
-    public override async Task HandleAsync(OutOfStockExceptionEvent @event, CancellationToken cancellationToken)
+    public async Task HandleAsync(OutOfStockExceptionEvent @event, CancellationToken cancellationToken)
     {
         var outOfStockException = @event.Exception as OutOfStockException;
         var reorderStockCommand = new ReorderStockCommand
@@ -44,7 +41,7 @@ public class OutOfStockExceptionHandler : EventPropagationHandler<OutOfStockExce
         }
         catch (Exception ex)
         {
-
+            throw;
         }
     }
 }

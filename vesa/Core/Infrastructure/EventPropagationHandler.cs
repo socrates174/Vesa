@@ -8,7 +8,6 @@ public class EventPropagationHandler<TEvent, TDefaultStateView> : IEventHandler<
 {
     private readonly IFactory<TDefaultStateView> _defaultStateViewFactory;
     private readonly IDomainEvents _domainEvents;
-    protected readonly IServiceProvider _serviceProvider;
     protected readonly IEventStore _eventStore;
 
     public EventPropagationHandler
@@ -21,9 +20,7 @@ public class EventPropagationHandler<TEvent, TDefaultStateView> : IEventHandler<
     {
         _defaultStateViewFactory = defaultStateViewFactory;
         _domainEvents = domainEvents;
-        _serviceProvider = serviceProvider;
         _eventStore = eventStore;
-
     }
 
     public virtual async Task HandleAsync(TEvent @event, CancellationToken cancellationToken)
