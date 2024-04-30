@@ -105,9 +105,9 @@ public static class ServiceCollectionExtensions
         services.AddScoped<IEventHandler<OrderReturnedEvent>, DailyOrdersStateViewUpdater>();
 
         // Event observers
-        services.AddScoped<IEventObservers, EventObservers<OrderPlacedEvent>>();
-        services.AddScoped<IEventObservers, EventObservers<OrderCancelledEvent>>();
-        services.AddScoped<IEventObservers, EventObservers<OrderReturnedEvent>>();
+        services.AddScoped<IEventObservers, EventHandlerObservers<OrderPlacedEvent>>();
+        services.AddScoped<IEventObservers, EventHandlerObservers<OrderCancelledEvent>>();
+        services.AddScoped<IEventObservers, EventHandlerObservers<OrderReturnedEvent>>();
 
         return services;
     }

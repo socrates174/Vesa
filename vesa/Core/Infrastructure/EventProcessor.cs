@@ -4,16 +4,16 @@ namespace vesa.Core.Infrastructure;
 
 public class EventProcessor : IEventProcessor
 {
-    private readonly IDictionary<string, IEventObservers> _eventObservers = new Dictionary<string, IEventObservers>();
+    private readonly IDictionary<string, IEventObservers> _eventObserversDictionary = new Dictionary<string, IEventObservers>();
 
-    public EventProcessor(IEnumerable<IEventObservers> eventObserveds)
+    public EventProcessor(IEnumerable<IEventObservers> eventObserversCollection)
     {
-        foreach (var eventObserved in eventObserveds)
+        foreach (var eventObservers in eventObserversCollection)
         {
-            var key = eventObserved.GetType().FullName;
-            if (!_eventObservers.ContainsKey(key))
+            var key = eventObservers.GetType().FullName;
+            if (!_eventObserversDictionary.ContainsKey(key))
             {
-                _eventObservers.Add(key, eventObserved);
+                _eventObserversDictionary.Add(key, eventObservers);
             }
         }
     }
@@ -21,12 +21,12 @@ public class EventProcessor : IEventProcessor
     public async Task<bool> ProcessAsync(IEvent @event, CancellationToken cancellationToken = default)
     {
         var processed = false;
-        Type eventObserversType = typeof(EventObservers<>);
+        Type eventObserversType = typeof(EventHandlerObservers<>);
         Type genericEventObserversType = eventObserversType.MakeGenericType(@event.GetType());
-        if (_eventObservers.ContainsKey(genericEventObserversType.FullName))
+        if (_eventObserversDictionary.ContainsKey(genericEventObserversType.FullName))
         {
-            var eventObserved = _eventObservers[genericEventObserversType.FullName];
-            await eventObserved.NotifyAsync(@event, cancellationToken);
+            var eventObservers = _eventObserversDictionary[genericEventObserversType.FullName];
+            await eventObservers.NotifyAsync(@event, cancellationToken);
             processed = true;
         }
         return processed;

@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using vesa.Core.Abstractions;
+﻿using vesa.Core.Abstractions;
 
 namespace vesa.Core.Infrastructure;
 
@@ -8,18 +7,18 @@ public class EventPropagationHandler<TEvent, TDefaultStateView> : IEventHandler<
     where TDefaultStateView : class, IStateView, new()
 {
     private readonly IFactory<TDefaultStateView> _defaultStateViewFactory;
-    private readonly IServiceProvider _serviceProvider;
+    private readonly IEventPropagationService _eventPropagationService;
     protected readonly IEventStore _eventStore;
 
     public EventPropagationHandler
     (
         IFactory<TDefaultStateView> defaultStateViewFactory,
-        IServiceProvider serviceProvider,
+        IEventPropagationService eventPropagationService,
         IEventStore eventStore
     )
     {
         _defaultStateViewFactory = defaultStateViewFactory;
-        _serviceProvider = serviceProvider;
+        _eventPropagationService = eventPropagationService;
         _eventStore = eventStore;
     }
 
@@ -40,14 +39,12 @@ public class EventPropagationHandler<TEvent, TDefaultStateView> : IEventHandler<
         where TEvent : class, IEvent
     {
         // save the same event with different subjects to feed multiple state views
-        var domainEvents = _serviceProvider.GetRequiredService<IDomainEvents>();
-        domainEvents.Add(@event);
-        foreach (var domainEvent in domainEvents)
+        var propagationEvents = _eventPropagationService.GetPropagationEvents(@event);
+        foreach (var propagationEvent in propagationEvents)
         {
-            if (domainEvent.Subject != @event.Subject &&
-                !(await _eventStore.EventExistsAsync(domainEvent.Id, domainEvent.Subject, cancellationToken)))
+            if (!(await _eventStore.EventExistsAsync(propagationEvent.Id, propagationEvent.Subject, cancellationToken)))
             {
-                await _eventStore.AddEventAsync(domainEvent, cancellationToken);
+                await _eventStore.AddEventAsync(propagationEvent, cancellationToken);
             }
         }
     }

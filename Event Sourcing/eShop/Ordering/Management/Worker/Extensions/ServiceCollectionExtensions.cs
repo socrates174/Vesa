@@ -150,14 +150,14 @@ public static class ServiceCollectionExtensions
 
 
         // Event observers
-        services.AddScoped<IEventObservers, EventObservers<OrderPlacedEvent>>();
-        services.AddScoped<IEventObservers, EventObservers<OrderCancelledEvent>>();
-        services.AddScoped<IEventObservers, EventObservers<OrderReturnedEvent>>();
-        services.AddScoped<IEventObservers, EventObservers<OutOfStockExceptionEvent>>();
-        services.AddScoped<IEventObservers, EventObservers<StockReorderedEvent>>();
+        services.AddScoped<IEventObservers, EventHandlerObservers<OrderPlacedEvent>>();
+        services.AddScoped<IEventObservers, EventHandlerObservers<OrderCancelledEvent>>();
+        services.AddScoped<IEventObservers, EventHandlerObservers<OrderReturnedEvent>>();
+        services.AddScoped<IEventObservers, EventHandlerObservers<OutOfStockExceptionEvent>>();
+        services.AddScoped<IEventObservers, EventHandlerObservers<StockReorderedEvent>>();
 
         // We need the state views' Subject in order to write the events to a partition that the state view can be hydrated from
-        services.AddTransient<IDomainEvents, DomainEvents>();
+        services.AddTransient<IEventPropagationService, EventPropagationService>();
 
         // Mapping that OrderStateView is interested in OrderPlacedEvent, OrderCancelledEvent and OrderReturnedEvent
         services.AddTransient<IStateView<OrderPlacedEvent>, OrderStateView>();

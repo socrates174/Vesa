@@ -23,7 +23,8 @@ public class CancelOrderHandler : CommandHandler<CancelOrderCommand, OrderStateV
         {
             throw new ArgumentException("Missing order number");
         }
-        _subject = OrderStateView.GetDefaultSubject(command.OrderNumber);   // must be set for state view hydration
         return await base.HandleAsync(command, cancellationToken);
     }
+
+    protected override string GetStateViewSubject(CancelOrderCommand command) => OrderStateView.GetDefaultSubject(command.OrderNumber);
 }

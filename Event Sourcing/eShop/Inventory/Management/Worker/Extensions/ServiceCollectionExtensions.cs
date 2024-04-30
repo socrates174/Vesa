@@ -1,20 +1,20 @@
-﻿using vesa.Core.Abstractions;
+﻿using eShop.Inventory.Core.Events;
+using eShop.Inventory.Core.IntegrationEvents;
+using eShop.Inventory.Management.Core.Abstractions;
+using eShop.Inventory.Management.Core.Infrastructure;
+using eShop.Inventory.Management.Service.ReorderStock;
+using eShop.Ordering.Database.SQL.Context;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Serialization;
+using vesa.Blob.Extensions;
+using vesa.Core.Abstractions;
 using vesa.Core.Infrastructure;
 using vesa.Cosmos.Extensions;
 using vesa.EventHub.Extensions;
 using vesa.File.Extensions;
 using vesa.Kafka.Extensions;
-using eShop.Inventory.Core.Events;
-using eShop.Inventory.Core.IntegrationEvents;
-using eShop.Inventory.Management.Core.Abstractions;
-using eShop.Inventory.Management.Core.Infrastructure;
-using eShop.Inventory.Management.Service.ReorderStock;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Serialization;
-using vesa.Blob.Extensions;
-using vesa.SQL.Infrastructure;
-using eShop.Ordering.Database.SQL.Context;
 using vesa.SQL.Extensions;
+using vesa.SQL.Infrastructure;
 namespace eShop.Inventory.Management.Worker.Extensions;
 
 public static class ServiceCollectionExtensions
@@ -72,7 +72,7 @@ public static class ServiceCollectionExtensions
                 break;
         }
 
-     
+
         switch (configuration["MessageHub"])
         {
             case "File":
@@ -94,19 +94,19 @@ public static class ServiceCollectionExtensions
 
         // Domain and Command handlers
 
-        services.AddTransient<IDomainEvents, DomainEvents>();
+        services.AddTransient<IEventPropagationService, EventPropagationService>();
 
         // ReorderStock Slice
         services.AddTransient<ICommandHandler<ReorderStockCommand>, ReorderStockHandler>();
         services.AddTransient<IDomain<ReorderStockCommand>, ReorderStockDomain>();
 
-        // Event observers
+        // Event handlers
         services.AddTransient<IEventHandler<StockReorderedIntegrationEvent>, ReorderStockHandler>();
         services.AddTransient<IEventHandler<StockReorderedEvent>, ReorderStockHandler>();
 
-        // Event observeds
-        services.AddScoped<IEventObservers, EventObservers<StockReorderedIntegrationEvent>>();
-        services.AddScoped<IEventObservers, EventObservers<StockReorderedEvent>>();
+        // Event observers
+        services.AddScoped<IEventObservers, EventHandlerObservers<StockReorderedIntegrationEvent>>();
+        services.AddScoped<IEventObservers, EventHandlerObservers<StockReorderedEvent>>();
 
         // Miscellaneous registrations
         services.AddTransient<IEmailSender, EmailSender>();

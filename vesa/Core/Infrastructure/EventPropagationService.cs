@@ -4,30 +4,27 @@ using vesa.Core.Extensions;
 
 namespace vesa.Core.Infrastructure;
 
-public class DomainEvents : List<IEvent>, IDomainEvents
+public class EventPropagationService : IEventPropagationService
 {
     private readonly IServiceProvider _serviceProvider;
 
-    public DomainEvents(IServiceProvider serviceProvider) : base()
+    public EventPropagationService(IServiceProvider serviceProvider) : base()
     {
         _serviceProvider = serviceProvider;
     }
 
-    public IDomainEvents Add<TEvent>(TEvent @event) where TEvent : class, IEvent
+    public IEnumerable<IEvent> GetPropagationEvents<TEvent>(TEvent @event) where TEvent : class, IEvent
     {
-        // Add the event
-        base.Add(@event);
 
-        // If not an ExceptionEvent
+        IEnumerable<IEvent> propagationEvents = new List<IEvent>();
+
         if (!(@event is ExceptionEvent))
         {
             // Add events for state views that are fed the order placed event
             var stateViewFeeders = _serviceProvider.GetRequiredService<IEnumerable<IStateView<TEvent>>>();
-            AddRange(@event.GetStateViewFeederEvents(stateViewFeeders));
+            propagationEvents = @event.GetStateViewFeederEvents(stateViewFeeders);
         }
 
-        return this;
+        return propagationEvents;
     }
-
-    public void Clear() => base.Clear();
 }

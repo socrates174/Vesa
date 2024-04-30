@@ -43,7 +43,6 @@ public abstract class CommandHandler<TCommand, TStateView> : ICommandHandler<TCo
     protected readonly IServiceProvider _serviceProvider;
     protected readonly IDomain<TCommand, TStateView> _domain;
     protected readonly IEventStore _eventStore;
-    protected string _subject;
 
     public CommandHandler
     (
@@ -61,11 +60,12 @@ public abstract class CommandHandler<TCommand, TStateView> : ICommandHandler<TCo
 
     public virtual async Task<IEnumerable<IEvent>> HandleAsync(TCommand command, CancellationToken cancellationToken = default)
     {
-        if (string.IsNullOrWhiteSpace(_subject))
+        var subject = GetStateViewSubject(command);
+        if (string.IsNullOrWhiteSpace(subject))
         {
             throw new NoSubjectException();
         }
-        var stateView = await _stateViewStore.HydrateStateViewAsync(_subject);
+        var stateView = await _stateViewStore.HydrateStateViewAsync(subject);
         CheckConcurrency(command, stateView);
         var events = await _domain.ProcessAsync(command, stateView);
         await _eventStore.AddEventsAsync(events, cancellationToken);
@@ -76,6 +76,8 @@ public abstract class CommandHandler<TCommand, TStateView> : ICommandHandler<TCo
         }
         return events;
     }
+
+    protected abstract string GetStateViewSubject(TCommand command);
 
     protected void CheckConcurrency(TCommand command, TStateView stateView)
     {

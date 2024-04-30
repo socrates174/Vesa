@@ -2,12 +2,12 @@
 
 namespace vesa.Core.Infrastructure;
 
-public class EventObservers<TEvent> : IEventObservers
+public class EventHandlerObservers<TEvent> : IEventObservers
     where TEvent : IEvent
 {
     private readonly IEnumerable<IEventHandler<TEvent>> _eventHandlers;
 
-    public EventObservers(IEnumerable<IEventHandler<TEvent>> eventHandlers)
+    public EventHandlerObservers(IEnumerable<IEventHandler<TEvent>> eventHandlers)
     {
         _eventHandlers = eventHandlers;
     }
