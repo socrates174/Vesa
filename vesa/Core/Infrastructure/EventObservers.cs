@@ -5,18 +5,18 @@ namespace vesa.Core.Infrastructure;
 public class EventObservers<TEvent> : IEventObservers
     where TEvent : IEvent
 {
-    private readonly IEnumerable<IEventHandler<TEvent>> _eventObservers;
+    private readonly IEnumerable<IEventHandler<TEvent>> _eventHandlers;
 
-    public EventObservers(IEnumerable<IEventHandler<TEvent>> eventObservers)
+    public EventObservers(IEnumerable<IEventHandler<TEvent>> eventHandlers)
     {
-        _eventObservers = eventObservers;
+        _eventHandlers = eventHandlers;
     }
 
     public async Task NotifyAsync(IEvent @event, CancellationToken cancellationToken)
     {
         if (@event is TEvent observedEvent)
         {
-            foreach (var observer in _eventObservers)
+            foreach (var observer in _eventHandlers)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {

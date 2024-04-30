@@ -12,10 +12,10 @@ public class GetDailyOrdersQuery : IQuery<DailyOrdersStateView>
 
     public DateTimeOffset StateViewDate { get; }
 
-    public static bool TryParse(DateTimeOffset stateViewDate, out GetDailyOrdersQuery? query)
+    public static bool TryParse(string stateViewDate, out GetDailyOrdersQuery? query)
     {
         var parsed = false;
-        query = new GetDailyOrdersQuery(stateViewDate);
+        query = new GetDailyOrdersQuery(DateTimeOffset.Parse(stateViewDate));
         parsed = true;
         return parsed;
     }

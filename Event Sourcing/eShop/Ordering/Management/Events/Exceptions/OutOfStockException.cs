@@ -7,9 +7,12 @@ public class OutOfStockException : Exception
     public OutOfStockException(string orderNumber, IEnumerable<OrderItem> outOfStockItems)
     {
         OrderNumber = orderNumber;
-        foreach (var item in outOfStockItems)
+        if (outOfStockItems != null && outOfStockItems.Any())
         {
-            Items.Add(item);
+            foreach (var item in outOfStockItems)
+            {
+                Items.Add(item);
+            }
         }
     }
 

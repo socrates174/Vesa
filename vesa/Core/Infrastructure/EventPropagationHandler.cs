@@ -2,7 +2,7 @@
 
 namespace vesa.Core.Infrastructure;
 
-public class EventHandler<TEvent, TDefaultStateView> : IEventHandler<TEvent>
+public class EventPropagationHandler<TEvent, TDefaultStateView> : IEventHandler<TEvent>
     where TEvent : class, IEvent
     where TDefaultStateView : class, IStateView, new()
 {
@@ -11,7 +11,7 @@ public class EventHandler<TEvent, TDefaultStateView> : IEventHandler<TEvent>
     protected readonly IServiceProvider _serviceProvider;
     protected readonly IEventStore _eventStore;
 
-    public EventHandler
+    public EventPropagationHandler
     (
         IFactory<TDefaultStateView> defaultStateViewFactory,
         IDomainEvents domainEvents,

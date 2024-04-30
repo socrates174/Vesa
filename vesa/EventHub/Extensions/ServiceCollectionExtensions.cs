@@ -84,9 +84,9 @@ public static class ServiceCollectionExtensions
         //var eventMappings = configuration.GetSection("EventMappings").Get<InternalMessageMapping[]>();
         //services.AddSingleton<IInternalMessageMapping[]>(eventMappings);
 
-        services.AddSingleton<IEventListener, EventHubListener>();
-        services.AddSingleton<EventHubListener>();
-        services.AddSingleton<IEventProcessor, EventProcessor>();
+        services.AddScoped<IEventListener, EventHubListener>();
+        services.AddScoped<EventHubListener>();
+        services.AddScoped<IEventProcessor, EventProcessor>();
 
         return services;
     }

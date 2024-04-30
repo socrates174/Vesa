@@ -142,9 +142,9 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IDomain<ReorderStockCommand>, ReorderStockDomain>();
 
         // Event handlers
-        services.AddScoped<IEventHandler<OrderPlacedEvent>, EventHandler<OrderPlacedEvent, OrderStateView>>();
-        services.AddScoped<IEventHandler<OrderCancelledEvent>, EventHandler<OrderCancelledEvent, OrderStateView>>();
-        services.AddScoped<IEventHandler<OrderReturnedEvent>, EventHandler<OrderReturnedEvent, OrderStateView>>();
+        services.AddScoped<IEventHandler<OrderPlacedEvent>, EventPropagationHandler<OrderPlacedEvent, OrderStateView>>();
+        services.AddScoped<IEventHandler<OrderCancelledEvent>, EventPropagationHandler<OrderCancelledEvent, OrderStateView>>();
+        services.AddScoped<IEventHandler<OrderReturnedEvent>, EventPropagationHandler<OrderReturnedEvent, OrderStateView>>();
         services.AddScoped<IEventHandler<OutOfStockExceptionEvent>, OutOfStockExceptionHandler>();
         services.AddScoped<IEventHandler<StockReorderedEvent>, EventPublicationHandler<StockReorderedEvent, OrderStateView>>();
 

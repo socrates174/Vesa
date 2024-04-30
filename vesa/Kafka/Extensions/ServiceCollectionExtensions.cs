@@ -50,10 +50,10 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IKafkaConsumerConfiguration>(kafkaConsumerConfiguration);
         services.AddSingleton(consumer);
 
-        services.AddSingleton<IEventListener, KafkaEventListener>();
-        services.AddSingleton<IKafkaEventConsumer, KafkaEventConsumer>();
-        services.AddSingleton<KafkaEventListener>();
-        services.AddSingleton<IEventProcessor, EventProcessor>();
+        services.AddScoped<IEventListener, KafkaEventListener>();
+        services.AddScoped<IKafkaEventConsumer, KafkaEventConsumer>();
+        //services.AddScoped<KafkaEventListener>();
+        services.AddScoped<IEventProcessor, EventProcessor>();
 
         return services;
     }

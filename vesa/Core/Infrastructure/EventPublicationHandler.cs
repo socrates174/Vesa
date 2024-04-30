@@ -2,7 +2,7 @@
 
 namespace vesa.Core.Infrastructure;
 
-public class EventPublicationHandler<TEvent, TDefaultStateView> : EventHandler<TEvent, TDefaultStateView>
+public class EventPublicationHandler<TEvent, TDefaultStateView> : EventPropagationHandler<TEvent, TDefaultStateView>
     where TEvent : class, IEvent
     where TDefaultStateView : class, IStateView, new()
 {

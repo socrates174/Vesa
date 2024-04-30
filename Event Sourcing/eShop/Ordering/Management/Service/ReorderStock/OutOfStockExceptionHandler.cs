@@ -7,7 +7,7 @@ using vesa.Core.Infrastructure;
 
 namespace eShop.Ordering.Management.Service.ReorderStock;
 
-public class OutOfStockExceptionHandler : EventHandler<OutOfStockExceptionEvent, OrderStateView>
+public class OutOfStockExceptionHandler : EventPropagationHandler<OutOfStockExceptionEvent, OrderStateView>
 {
     public OutOfStockExceptionHandler
     (
@@ -33,12 +33,18 @@ public class OutOfStockExceptionHandler : EventHandler<OutOfStockExceptionEvent,
             @event.TriggeredBy,
             @event.SequenceNumber
         );
-
-        using (var scope = _serviceProvider.CreateScope())
+        try
         {
-            var serviceProvider = scope.ServiceProvider;
-            var commandHandler = serviceProvider.GetRequiredService<ICommandHandler<ReorderStockCommand>>();
-            var events = await commandHandler.HandleAsync(reorderStockCommand, new CancellationToken());
+            using (var scope = _serviceProvider.CreateScope())
+            {
+                var serviceProvider = scope.ServiceProvider;
+                var commandHandler = serviceProvider.GetRequiredService<ICommandHandler<ReorderStockCommand>>();
+                var events = await commandHandler.HandleAsync(reorderStockCommand, new CancellationToken());
+            }
+        }
+        catch (Exception ex)
+        {
+
         }
     }
 }
