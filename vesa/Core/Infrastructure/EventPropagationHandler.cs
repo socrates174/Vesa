@@ -1,4 +1,5 @@
-﻿using vesa.Core.Abstractions;
+﻿using Microsoft.Extensions.DependencyInjection;
+using vesa.Core.Abstractions;
 
 namespace vesa.Core.Infrastructure;
 
@@ -7,19 +8,18 @@ public class EventPropagationHandler<TEvent, TDefaultStateView> : IEventHandler<
     where TDefaultStateView : class, IStateView, new()
 {
     private readonly IFactory<TDefaultStateView> _defaultStateViewFactory;
-    private readonly IDomainEvents _domainEvents;
+    private readonly IServiceProvider _serviceProvider;
     protected readonly IEventStore _eventStore;
 
     public EventPropagationHandler
     (
         IFactory<TDefaultStateView> defaultStateViewFactory,
-        IDomainEvents domainEvents,
         IServiceProvider serviceProvider,
         IEventStore eventStore
     )
     {
         _defaultStateViewFactory = defaultStateViewFactory;
-        _domainEvents = domainEvents;
+        _serviceProvider = serviceProvider;
         _eventStore = eventStore;
     }
 
@@ -40,9 +40,9 @@ public class EventPropagationHandler<TEvent, TDefaultStateView> : IEventHandler<
         where TEvent : class, IEvent
     {
         // save the same event with different subjects to feed multiple state views
-        _domainEvents.Clear();
-        _domainEvents.Add(@event);
-        foreach (var domainEvent in _domainEvents)
+        var domainEvents = _serviceProvider.GetRequiredService<IDomainEvents>();
+        domainEvents.Add(@event);
+        foreach (var domainEvent in domainEvents)
         {
             if (domainEvent.Subject != @event.Subject &&
                 !(await _eventStore.EventExistsAsync(domainEvent.Id, domainEvent.Subject, cancellationToken)))

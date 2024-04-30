@@ -16,13 +16,13 @@ public class EventObservers<TEvent> : IEventObservers
     {
         if (@event is TEvent observedEvent)
         {
-            foreach (var observer in _eventHandlers)
+            foreach (var eventHandler in _eventHandlers)
             {
                 if (cancellationToken.IsCancellationRequested)
                 {
                     break;
                 }
-                await observer.HandleAsync(observedEvent, cancellationToken);
+                await eventHandler.HandleAsync(observedEvent, cancellationToken);
             }
         }
     }

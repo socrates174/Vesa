@@ -1,19 +1,17 @@
-﻿using vesa.Core.Abstractions;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
+﻿using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using vesa.Core.Abstractions;
 
 namespace vesa.Core.Infrastructure;
 
 public class EventListenerWorker : BackgroundService
 {
     private IEnumerable<IEventListener> _eventListeners;
-    private readonly IServiceProvider _serviceProvider;
     private readonly ILogger<EventListenerWorker> _logger;
 
-    public EventListenerWorker(IServiceProvider serviceProvider, ILogger<EventListenerWorker> logger)
+    public EventListenerWorker(IEnumerable<IEventListener> eventListeners, ILogger<EventListenerWorker> logger)
     {
-        _serviceProvider = serviceProvider;
+        _eventListeners = eventListeners;
         _logger = logger;
     }
 
@@ -21,23 +19,17 @@ public class EventListenerWorker : BackgroundService
     {
         try
         {
-            using (var scope = _serviceProvider.CreateScope())
+            var tasks = new List<Task>();
+            foreach (var listener in _eventListeners)
             {
-                var tasks = new List<Task>();
-                _eventListeners = scope.ServiceProvider.GetRequiredService<IEnumerable<IEventListener>>();
-                foreach (var listener in _eventListeners)
-                {
-                    tasks.Add(listener.StartAsync(stoppingToken));
-                }
-                await Task.WhenAll(tasks);
+                tasks.Add(listener.StartAsync(stoppingToken));
             }
+            await Task.WhenAll(tasks);
         }
         catch (Exception ex)
         {
-
+            throw;
         }
-
-        //return Task.CompletedTask;
     }
 
     public override async Task StopAsync(CancellationToken stoppingToken)

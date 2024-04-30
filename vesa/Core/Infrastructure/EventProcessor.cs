@@ -21,11 +21,11 @@ public class EventProcessor : IEventProcessor
     public async Task<bool> ProcessAsync(IEvent @event, CancellationToken cancellationToken = default)
     {
         var processed = false;
-        Type eventObservedType = typeof(EventObservers<>);
-        Type genericEventObservedType = eventObservedType.MakeGenericType(@event.GetType());
-        if (_eventObservers.ContainsKey(genericEventObservedType.FullName))
+        Type eventObserversType = typeof(EventObservers<>);
+        Type genericEventObserversType = eventObserversType.MakeGenericType(@event.GetType());
+        if (_eventObservers.ContainsKey(genericEventObserversType.FullName))
         {
-            var eventObserved = _eventObservers[genericEventObservedType.FullName];
+            var eventObserved = _eventObservers[genericEventObserversType.FullName];
             await eventObserved.NotifyAsync(@event, cancellationToken);
             processed = true;
         }
