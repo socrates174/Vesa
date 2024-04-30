@@ -94,7 +94,7 @@ public static class ServiceCollectionExtensions
 
         // Domain and Command handlers
 
-        services.AddTransient<IEventPropagationService, EventPropagationService>();
+        services.AddTransient(typeof(IEventPropagationService<>), typeof(EventPropagationService<>));
 
         // ReorderStock Slice
         services.AddTransient<ICommandHandler<ReorderStockCommand>, ReorderStockHandler>();

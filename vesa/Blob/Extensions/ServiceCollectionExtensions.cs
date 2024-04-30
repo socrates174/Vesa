@@ -1,30 +1,30 @@
 ﻿using Azure.Storage.Blobs;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using vesa.Blob.Abstractions;
 using vesa.Blob.Infrastructure;
 using vesa.Core.Abstractions;
 using vesa.Core.Infrastructure;
 using vesa.File.Infrastructure;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace vesa.Blob.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddBlobEventStore(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddBlobEventStore(this IServiceCollection services, IConfiguration configuration, ServiceLifetime serviceLifetime = ServiceLifetime.Scoped)
     {
         services.AddSingleton<IStreamSerializer<IEvent>, TextEventStreamSerializer>();
         services.AddSingleton(typeof(IStreamSerializer<>), typeof(TextStateViewStreamSerializer<>));
         services.AddBlobServiceClient(configuration);
-        services.AddSingleton<IEventStore, BlobEventStore>();
+        services.Add(new ServiceDescriptor(typeof(IEventStore), typeof(BlobEventStore), serviceLifetime));
         return services;
     }
-    public static IServiceCollection AddBlobEventStoreListener(this IServiceCollection services, IConfiguration configuration
-    )
+
+    public static IServiceCollection AddBlobEventStoreListener(this IServiceCollection services, IConfiguration configuration, ServiceLifetime serviceLifetime = ServiceLifetime.Singleton)
     {
-        services.AddSingleton<IEventListener, BlobEventStoreListener>();
-        services.AddSingleton<IEventConsumerBase, BlobEventConsumer>();
-        services.AddSingleton<IEventProcessor, EventProcessor>();
+        services.Add(new ServiceDescriptor(typeof(IEventListener), typeof(BlobEventStoreListener), serviceLifetime));
+        services.Add(new ServiceDescriptor(typeof(IEventConsumerBase), typeof(BlobEventConsumer), serviceLifetime));
+        services.Add(new ServiceDescriptor(typeof(IEventProcessor), typeof(EventProcessor), serviceLifetime));
         return services;
     }
 

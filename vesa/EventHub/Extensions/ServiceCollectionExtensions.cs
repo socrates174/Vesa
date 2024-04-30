@@ -2,11 +2,11 @@
 using Azure.Messaging.EventHubs.Consumer;
 using Azure.Messaging.EventHubs.Producer;
 using Azure.Storage.Blobs;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using vesa.Core.Abstractions;
 using vesa.Core.Infrastructure;
 using vesa.EventHub.Infrastructure;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace vesa.EventHub.Extensions;
 
@@ -16,6 +16,7 @@ public static class ServiceCollectionExtensions
     (
         this IServiceCollection services,
         IConfiguration configuration,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Singleton,
         string eventHubProducerConfigurationSectionName = "EventHubProducerConfiguration"
     )
     {
@@ -29,7 +30,8 @@ public static class ServiceCollectionExtensions
         );
         services.AddSingleton(eventHubProducerClient);
 
-        services.AddScoped<IEventPublisher, EventHubPublisher>();
+        services.Add(new ServiceDescriptor(typeof(IEventPublisher), typeof(EventHubPublisher), serviceLifetime));
+
 
         return services;
     }
@@ -60,6 +62,7 @@ public static class ServiceCollectionExtensions
     (
         this IServiceCollection services,
         IConfiguration configuration,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Singleton,
         string eventProcessorConfigurationSectionName = "EventProcessorConfiguration"
     )
     {
@@ -84,9 +87,8 @@ public static class ServiceCollectionExtensions
         //var eventMappings = configuration.GetSection("EventMappings").Get<InternalMessageMapping[]>();
         //services.AddSingleton<IInternalMessageMapping[]>(eventMappings);
 
-        services.AddScoped<IEventListener, EventHubListener>();
-        services.AddScoped<EventHubListener>();
-        services.AddScoped<IEventProcessor, EventProcessor>();
+        services.Add(new ServiceDescriptor(typeof(IEventListener), typeof(EventHubListener), serviceLifetime));
+        services.Add(new ServiceDescriptor(typeof(IEventProcessor), typeof(EventProcessor), serviceLifetime));
 
         return services;
     }

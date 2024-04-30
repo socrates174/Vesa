@@ -1,10 +1,10 @@
-﻿using vesa.Core.Abstractions;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+using vesa.Core.Abstractions;
 using vesa.Core.Infrastructure;
 using vesa.File.Abstractions;
 using vesa.File.Infrastructure;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace vesa.File.Extensions;
 
@@ -22,7 +22,12 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddFileEventStore(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddFileEventStore
+    (
+        this IServiceCollection services,
+        IConfiguration configuration,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Scoped
+    )
     {
         var eventStorePath = configuration["EventStorePath"];
 
@@ -31,37 +36,63 @@ public static class ServiceCollectionExtensions
             Directory.CreateDirectory(eventStorePath);
         }
 
-        services.AddSingleton<IEventStore>(sp => new FileEventStore
+        services.Add(new ServiceDescriptor
         (
-            configuration["EventStorePath"],
-            sp.GetService<ILogger<FileEventStore>>()
+            typeof(IEventStore),
+            sp => new FileEventStore
+            (
+                configuration["EventStorePath"],
+                sp.GetService<ILogger<FileEventStore>>()
+            ),
+            serviceLifetime
         ));
 
-        services.AddSingleton<IFileEventStore>(sp => new FileEventStore
+        services.Add(new ServiceDescriptor
         (
-            configuration["EventStorePath"],
-            sp.GetService<ILogger<FileEventStore>>()
+            typeof(IFileEventStore),
+            sp => new FileEventStore
+            (
+                configuration["EventStorePath"],
+                sp.GetService<ILogger<FileEventStore>>()
+            ),
+            serviceLifetime
         ));
 
         return services;
     }
 
-    public static IServiceCollection AddFileEventListeners(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddFileEventListeners
+    (
+        this IServiceCollection services,
+        IConfiguration configuration,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Singleton
+    )
     {
-        services.AddScoped<IEventListener, FileEventStoreListener>();
-        services.AddScoped<FileEventStoreListener>();
+        services.Add(new ServiceDescriptor(typeof(IEventListener), typeof(FileEventStoreListener), serviceLifetime));
+        services.Add(new ServiceDescriptor(typeof(IEventProcessor), typeof(EventProcessor), serviceLifetime));
+        //services.AddScoped<FileEventStoreListener>();
         //services.AddSingleton<IEventListener, FileEventHubListener>();
         //services.AddSingleton<FileEventHubListener>();
-        services.AddScoped<IEventProcessor, EventProcessor>();
         return services;
     }
 
-    public static IServiceCollection AddFileEventHub(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddFileEventHub
+    (
+        this IServiceCollection services,
+        IConfiguration configuration,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Singleton
+    )
     {
         //services.AddSingleton<IEventConsumer>(_ => new FileEventConsumer(configuration["EventHubPath"], configuration["EventConsumerId"],));
         //services.AddSingleton<IFileEventConsumer>(_ => new FileEventConsumer(configuration["EventHubPath"], configuration["EventConsumerId"]));
 
         // Event Publisher
+        services.Add(new ServiceDescriptor
+        (
+            typeof(IEventPublisher),
+            sp => new FileEventPublisher(configuration["EventHubPath"]),
+            serviceLifetime
+        ));
         services.AddSingleton<IEventPublisher>(_ => new FileEventPublisher(configuration["EventHubPath"]));
         return services;
     }

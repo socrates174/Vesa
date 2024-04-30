@@ -1,10 +1,10 @@
-﻿using vesa.Core.Abstractions;
+﻿using Confluent.Kafka;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using vesa.Core.Abstractions;
 using vesa.Core.Infrastructure;
 using vesa.Kafka.Abstractions;
 using vesa.Kafka.Infrastructure;
-using Confluent.Kafka;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace vesa.Kafka.Extensions;
 
@@ -14,11 +14,12 @@ public static class ServiceCollectionExtensions
     (
         this IServiceCollection services,
         IConfiguration configuration,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Singleton,
         string eventMappingsName = "EventMappings"
     )
     {
         var eventMappings = configuration.GetSection(eventMappingsName).Get<List<EventMapping>>();
-        services.AddSingleton<IEnumerable<IEventMapping>>(eventMappings);
+        services.Add(new ServiceDescriptor(typeof(IEnumerable<IEventMapping>), sp => eventMappings, serviceLifetime));
         return services;
     }
 
@@ -26,6 +27,7 @@ public static class ServiceCollectionExtensions
     (
         this IServiceCollection services,
         IConfiguration configuration,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Singleton,
         string kafkaConsumerConfigurationSectionName = "KafkaConsumerConfiguration"
     )
     {
@@ -50,10 +52,9 @@ public static class ServiceCollectionExtensions
         services.AddSingleton<IKafkaConsumerConfiguration>(kafkaConsumerConfiguration);
         services.AddSingleton(consumer);
 
-        services.AddScoped<IEventListener, KafkaEventListener>();
-        services.AddScoped<IKafkaEventConsumer, KafkaEventConsumer>();
-        //services.AddScoped<KafkaEventListener>();
-        services.AddScoped<IEventProcessor, EventProcessor>();
+        services.Add(new ServiceDescriptor(typeof(IEventListener), typeof(KafkaEventListener), serviceLifetime));
+        services.Add(new ServiceDescriptor(typeof(IKafkaEventConsumer), typeof(KafkaEventConsumer), serviceLifetime));
+        services.Add(new ServiceDescriptor(typeof(IEventProcessor), typeof(EventProcessor), serviceLifetime));
 
         return services;
     }
@@ -63,6 +64,7 @@ public static class ServiceCollectionExtensions
     (
         this IServiceCollection services,
         IConfiguration configuration,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Singleton,
         string kafkaPublisherConfigurationSectionName = "KafkaPublisherConfiguration"
     )
     {
@@ -83,11 +85,14 @@ public static class ServiceCollectionExtensions
             .SetKeySerializer(new IgnoreSerializer())
             .Build();
 
+
         services.AddSingleton<IKafkaPublisherConfiguration>(kafkaPublisherConfiguration);
         //services.AddSingleton(kafkaPublisherConfiguration);
+
         services.AddSingleton(producer);
-        services.AddSingleton<IEventPublisher, KafkaEventPublisher>();
- 
+
+        services.Add(new ServiceDescriptor(typeof(IEventPublisher), typeof(KafkaEventPublisher), serviceLifetime));
+
         return services;
     }
 }

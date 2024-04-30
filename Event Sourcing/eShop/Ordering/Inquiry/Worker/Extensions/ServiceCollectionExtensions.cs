@@ -50,12 +50,12 @@ public static class ServiceCollectionExtensions
                 services.AddScoped<IEventStore, SQLEventStore>();
                 break;
             case "Cosmos":
-                services.AddCosmosStateViewStore(configuration, "StateViewCosmosContainerConfiguration");
+                services.AddCosmosStateViewStore(configuration);
                 services.AddCosmosEventStore(configuration);
                 services.AddCosmosEventStoreListener(configuration);
                 break;
         }
-  
+
         switch (configuration["StateViewStore"])
         {
             case "File":
@@ -80,34 +80,34 @@ public static class ServiceCollectionExtensions
                     services.InitializeDatabase(configuration);
                 }
                 services.AddCosmosContainerConfiguration<IStateView>(configuration, "StateViewCosmosContainerConfiguration");
-                services.AddTransient(typeof(IStateViewStore<>), typeof(CosmosStateViewStore<>));
+                services.AddScoped(typeof(IStateViewStore<>), typeof(CosmosStateViewStore<>));
                 break;
         }
 
         // OrderStateView updaters
-        services.AddScoped<IEventHandler<OrderPlacedEvent>, OrderStateViewUpdater>();
-        services.AddScoped<IEventHandler<OrderCancelledEvent>, OrderStateViewUpdater>();
-        services.AddScoped<IEventHandler<OrderReturnedEvent>, OrderStateViewUpdater>();
+        services.AddSingleton<IEventHandler<OrderPlacedEvent>, OrderStateViewUpdater>();
+        services.AddSingleton<IEventHandler<OrderCancelledEvent>, OrderStateViewUpdater>();
+        services.AddSingleton<IEventHandler<OrderReturnedEvent>, OrderStateViewUpdater>();
 
         // CustomerOrdersStateView updaters
-        services.AddScoped<IEventHandler<OrderPlacedEvent>, CustomerOrdersStateViewUpdater>();
-        services.AddScoped<IEventHandler<OrderCancelledEvent>, CustomerOrdersStateViewUpdater>();
-        services.AddScoped<IEventHandler<OrderReturnedEvent>, CustomerOrdersStateViewUpdater>();
+        services.AddSingleton<IEventHandler<OrderPlacedEvent>, CustomerOrdersStateViewUpdater>();
+        services.AddSingleton<IEventHandler<OrderCancelledEvent>, CustomerOrdersStateViewUpdater>();
+        services.AddSingleton<IEventHandler<OrderReturnedEvent>, CustomerOrdersStateViewUpdater>();
 
         // StatusOrdersStateView updaters
-        services.AddScoped<IEventHandler<OrderPlacedEvent>, StatusOrdersStateViewUpdater>();
-        services.AddScoped<IEventHandler<OrderCancelledEvent>, StatusOrdersStateViewUpdater>();
-        services.AddScoped<IEventHandler<OrderReturnedEvent>, StatusOrdersStateViewUpdater>();
+        services.AddSingleton<IEventHandler<OrderPlacedEvent>, StatusOrdersStateViewUpdater>();
+        services.AddSingleton<IEventHandler<OrderCancelledEvent>, StatusOrdersStateViewUpdater>();
+        services.AddSingleton<IEventHandler<OrderReturnedEvent>, StatusOrdersStateViewUpdater>();
 
         //DailyOrdersStateView updaters
-        services.AddScoped<IEventHandler<OrderPlacedEvent>, DailyOrdersStateViewUpdater>();
-        services.AddScoped<IEventHandler<OrderCancelledEvent>, DailyOrdersStateViewUpdater>();
-        services.AddScoped<IEventHandler<OrderReturnedEvent>, DailyOrdersStateViewUpdater>();
+        services.AddSingleton<IEventHandler<OrderPlacedEvent>, DailyOrdersStateViewUpdater>();
+        services.AddSingleton<IEventHandler<OrderCancelledEvent>, DailyOrdersStateViewUpdater>();
+        services.AddSingleton<IEventHandler<OrderReturnedEvent>, DailyOrdersStateViewUpdater>();
 
         // Event observers
-        services.AddScoped<IEventObservers, EventHandlerObservers<OrderPlacedEvent>>();
-        services.AddScoped<IEventObservers, EventHandlerObservers<OrderCancelledEvent>>();
-        services.AddScoped<IEventObservers, EventHandlerObservers<OrderReturnedEvent>>();
+        services.AddSingleton<IEventObservers, EventHandlerObservers<OrderPlacedEvent>>();
+        services.AddSingleton<IEventObservers, EventHandlerObservers<OrderCancelledEvent>>();
+        services.AddSingleton<IEventObservers, EventHandlerObservers<OrderReturnedEvent>>();
 
         return services;
     }

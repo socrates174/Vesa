@@ -85,7 +85,7 @@ public static class ServiceCollectionExtensions
                     services.InitializeDatabase(configuration);
                 }
                 services.AddCosmosContainerConfiguration<IStateView>(configuration, "StateViewCosmosContainerConfiguration");
-                services.AddTransient(typeof(IStateViewStore<>), typeof(CosmosStateViewStore<>));
+                services.AddScoped(typeof(IStateViewStore<>), typeof(CosmosStateViewStore<>));
                 break;
         }
 
@@ -142,22 +142,21 @@ public static class ServiceCollectionExtensions
         services.AddTransient<IDomain<ReorderStockCommand>, ReorderStockDomain>();
 
         // Event handlers
-        services.AddScoped<IEventHandler<OrderPlacedEvent>, EventPropagationHandler<OrderPlacedEvent, OrderStateView>>();
-        services.AddScoped<IEventHandler<OrderCancelledEvent>, EventPropagationHandler<OrderCancelledEvent, OrderStateView>>();
-        services.AddScoped<IEventHandler<OrderReturnedEvent>, EventPropagationHandler<OrderReturnedEvent, OrderStateView>>();
-        services.AddScoped<IEventHandler<OutOfStockExceptionEvent>, OutOfStockExceptionHandler>();
-        services.AddScoped<IEventHandler<StockReorderedEvent>, EventPublicationHandler<StockReorderedEvent>>();
-
+        services.AddSingleton<IEventHandler<OrderPlacedEvent>, EventPropagationHandler<OrderPlacedEvent, OrderStateView>>();
+        services.AddSingleton<IEventHandler<OrderCancelledEvent>, EventPropagationHandler<OrderCancelledEvent, OrderStateView>>();
+        services.AddSingleton<IEventHandler<OrderReturnedEvent>, EventPropagationHandler<OrderReturnedEvent, OrderStateView>>();
+        services.AddSingleton<IEventHandler<OutOfStockExceptionEvent>, OutOfStockExceptionHandler>();
+        services.AddSingleton<IEventHandler<StockReorderedEvent>, EventPublicationHandler<StockReorderedEvent>>();
 
         // Event observers
-        services.AddScoped<IEventObservers, EventHandlerObservers<OrderPlacedEvent>>();
-        services.AddScoped<IEventObservers, EventHandlerObservers<OrderCancelledEvent>>();
-        services.AddScoped<IEventObservers, EventHandlerObservers<OrderReturnedEvent>>();
-        services.AddScoped<IEventObservers, EventHandlerObservers<OutOfStockExceptionEvent>>();
-        services.AddScoped<IEventObservers, EventHandlerObservers<StockReorderedEvent>>();
+        services.AddSingleton<IEventObservers, EventHandlerObservers<OrderPlacedEvent>>();
+        services.AddSingleton<IEventObservers, EventHandlerObservers<OrderCancelledEvent>>();
+        services.AddSingleton<IEventObservers, EventHandlerObservers<OrderReturnedEvent>>();
+        services.AddSingleton<IEventObservers, EventHandlerObservers<OutOfStockExceptionEvent>>();
+        services.AddSingleton<IEventObservers, EventHandlerObservers<StockReorderedEvent>>();
 
         // We need the state views' Subject in order to write the events to a partition that the state view can be hydrated from
-        services.AddTransient<IEventPropagationService, EventPropagationService>();
+        services.AddSingleton(typeof(IEventPropagationService<>), typeof(EventPropagationService<>));
 
         // Mapping that OrderStateView is interested in OrderPlacedEvent, OrderCancelledEvent and OrderReturnedEvent
         services.AddTransient<IStateView<OrderPlacedEvent>, OrderStateView>();

@@ -64,10 +64,10 @@ public static class ServiceCollectionExtensions
                 {
                     services.AddSQLStore<OrderingContext>(configuration);
                 }
-                services.AddTransient(typeof(IStateViewStore<OrderStateView>), typeof(SQLStateViewStore<OrderStateViewJson, OrderStateView>));
-                services.AddTransient(typeof(IStateViewStore<CustomerOrdersStateView>), typeof(SQLStateViewStore<CustomerOrdersStateViewJson, CustomerOrdersStateView>));
-                services.AddTransient(typeof(IStateViewStore<StatusOrdersStateView>), typeof(SQLStateViewStore<StatusOrdersStateViewJson, StatusOrdersStateView>));
-                services.AddTransient(typeof(IStateViewStore<DailyOrdersStateView>), typeof(SQLStateViewStore<DailyOrdersStateViewJson, DailyOrdersStateView>));
+                services.AddScoped(typeof(IStateViewStore<OrderStateView>), typeof(SQLStateViewStore<OrderStateViewJson, OrderStateView>));
+                services.AddScoped(typeof(IStateViewStore<CustomerOrdersStateView>), typeof(SQLStateViewStore<CustomerOrdersStateViewJson, CustomerOrdersStateView>));
+                services.AddScoped(typeof(IStateViewStore<StatusOrdersStateView>), typeof(SQLStateViewStore<StatusOrdersStateViewJson, StatusOrdersStateView>));
+                services.AddScoped(typeof(IStateViewStore<DailyOrdersStateView>), typeof(SQLStateViewStore<DailyOrdersStateViewJson, DailyOrdersStateView>));
                 break;
             case "Cosmos":
                 if (configuration["EventStore"] != "Cosmos")
@@ -77,7 +77,7 @@ public static class ServiceCollectionExtensions
                     services.InitializeDatabase(configuration);
                 }
                 services.AddCosmosContainerConfiguration<IStateView>(configuration, "StateViewCosmosContainerConfiguration");
-                services.AddTransient(typeof(IStateViewStore<>), typeof(CosmosStateViewStore<>));
+                services.AddScoped(typeof(IStateViewStore<>), typeof(CosmosStateViewStore<>));
                 break;
         }
 
@@ -99,8 +99,6 @@ public static class ServiceCollectionExtensions
         }
 
         // Domain and Handler registrations
-
-        //services.AddTransient<IDomainEvents, DomainEvents>();
 
         // Place Order Slice
         services.AddTransient<ICommandHandler<PlaceOrderCommand>, PlaceOrderHandler>();

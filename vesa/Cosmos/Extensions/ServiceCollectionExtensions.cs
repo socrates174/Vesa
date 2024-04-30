@@ -1,29 +1,42 @@
-﻿using vesa.Core.Abstractions;
-using vesa.Core.Infrastructure;
-using vesa.Cosmos.Abstractions;
-using vesa.Cosmos.Infrastructure;
-using Microsoft.Azure.Cosmos;
+﻿using Microsoft.Azure.Cosmos;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json.Linq;
+using vesa.Core.Abstractions;
+using vesa.Core.Infrastructure;
+using vesa.Cosmos.Abstractions;
+using vesa.Cosmos.Infrastructure;
 
 namespace vesa.Cosmos.Extensions;
 
 public static class ServiceCollectionExtensions
 {
-    public static IServiceCollection AddCosmosEventStore(this IServiceCollection services, IConfiguration configuration, string cosmosContainerConfigurationName = "EventCosmosContainerConfiguration")
+    public static IServiceCollection AddCosmosEventStore
+    (
+        this IServiceCollection services,
+        IConfiguration configuration,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Scoped,
+        string cosmosContainerConfigurationName = "EventCosmosContainerConfiguration"
+    )
     {
         services.AddCosmosClient(configuration);
         services.AddCosmosContainerConfiguration(configuration, cosmosContainerConfigurationName);
         services.InitializeDatabase(configuration);
-        services.AddSingleton<IEventStore, CosmosEventStore>();
+        services.Add(new ServiceDescriptor(typeof(IEventStore), typeof(CosmosEventStore), serviceLifetime));
         return services;
     }
 
-    public static IServiceCollection AddCosmosStateViewStore(this IServiceCollection services, IConfiguration configuration, string configurationName)
+    public static IServiceCollection AddCosmosStateViewStore
+    (
+        this IServiceCollection services,
+        IConfiguration configuration,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Scoped,
+        string configurationName = "StateViewCosmosContainerConfiguration"
+    )
     {
         services.AddCosmosContainerConfiguration<IStateView>(configuration, configurationName);
-        services.AddTransient(typeof(IStateViewStore<>), typeof(CosmosStateViewStore<>));
+        services.Add(new ServiceDescriptor(typeof(IStateViewStore<>), typeof(CosmosStateViewStore<>), serviceLifetime));
+
         return services;
     }
 
@@ -167,14 +180,19 @@ public static class ServiceCollectionExtensions
         return services;
     }
 
-    public static IServiceCollection AddCosmosEventStoreListener(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddCosmosEventStoreListener
+    (
+        this IServiceCollection services,
+        IConfiguration configuration,
+        ServiceLifetime serviceLifetime = ServiceLifetime.Singleton
+    )
     {
         services.AddLeaseCosmosContainer(configuration);
         services.AddChangeFeedProcessorConfiguration(configuration);
-        services.AddScoped<IChangeFeedProcessorFactory<JObject>, EventStoreChangeFeedProcessorFactory>();
-        services.AddScoped<IEventListener, CosmosEventStoreListener>();
-        services.AddScoped<CosmosEventStoreListener>();
-        services.AddScoped<IEventProcessor, EventProcessor>();
+        services.Add(new ServiceDescriptor(typeof(IChangeFeedProcessorFactory<JObject>), typeof(EventStoreChangeFeedProcessorFactory), serviceLifetime));
+        services.Add(new ServiceDescriptor(typeof(IEventListener), typeof(CosmosEventStoreListener), serviceLifetime));
+        services.Add(new ServiceDescriptor(typeof(IEventStore), typeof(CosmosEventStore), serviceLifetime));
+        services.Add(new ServiceDescriptor(typeof(IEventProcessor), typeof(EventProcessor), serviceLifetime));
         return services;
     }
 

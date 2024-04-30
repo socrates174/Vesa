@@ -7,13 +7,13 @@ public class EventPropagationHandler<TEvent, TDefaultStateView> : IEventHandler<
     where TDefaultStateView : class, IStateView, new()
 {
     private readonly IFactory<TDefaultStateView> _defaultStateViewFactory;
-    private readonly IEventPropagationService _eventPropagationService;
+    private readonly IEventPropagationService<TEvent> _eventPropagationService;
     protected readonly IEventStore _eventStore;
 
     public EventPropagationHandler
     (
         IFactory<TDefaultStateView> defaultStateViewFactory,
-        IEventPropagationService eventPropagationService,
+        IEventPropagationService<TEvent> eventPropagationService,
         IEventStore eventStore
     )
     {
@@ -35,8 +35,7 @@ public class EventPropagationHandler<TEvent, TDefaultStateView> : IEventHandler<
         }
     }
 
-    protected async Task AddEventsWithStateViewSubjectsAsync<TEvent>(TEvent @event, CancellationToken cancellationToken = default)
-        where TEvent : class, IEvent
+    protected async Task AddEventsWithStateViewSubjectsAsync(TEvent @event, CancellationToken cancellationToken = default)
     {
         // save the same event with different subjects to feed multiple state views
         var propagationEvents = _eventPropagationService.GetPropagationEvents(@event);
