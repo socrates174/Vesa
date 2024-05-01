@@ -45,16 +45,16 @@ public static class ServiceCollectionExtensions
                 services.AddFileEventListeners(configuration);
                 break;
             case "Blob":
-                services.AddBlobEventStore(configuration);
+                services.AddBlobEventStore(configuration, ServiceLifetime.Singleton);
                 services.AddBlobEventStoreListener(configuration);
                 break;
             case "SQL":
-                services.AddSQLStore<OrderingContext>(configuration, ServiceLifetime.Scoped);
+                services.AddSQLStore<OrderingContext>(configuration, ServiceLifetime.Singleton);
                 services.AddSQLEventListeners(configuration);
                 services.AddScoped<IEventStore, SQLEventStore>();
                 break;
             case "Cosmos":
-                services.AddCosmosEventStore(configuration);
+                services.AddCosmosEventStore(configuration, ServiceLifetime.Singleton);
                 services.AddCosmosEventStoreListener(configuration);
                 services.InitializeDatabase(configuration);
                 break;
@@ -63,7 +63,7 @@ public static class ServiceCollectionExtensions
         switch (configuration["StateViewStore"])
         {
             case "File":
-                services.AddScoped(typeof(IStateViewStore<>), typeof(FileStateViewStore<>));
+                services.AddSingleton(typeof(IStateViewStore<>), typeof(FileStateViewStore<>));
                 break;
 
             case "SQL":
@@ -72,10 +72,10 @@ public static class ServiceCollectionExtensions
                 {
                     services.AddSQLStore<OrderingContext>(configuration, ServiceLifetime.Scoped);
                 }
-                services.AddScoped(typeof(IStateViewStore<OrderStateView>), typeof(SQLStateViewStore<OrderStateViewJson, OrderStateView>));
-                services.AddScoped(typeof(IStateViewStore<CustomerOrdersStateView>), typeof(SQLStateViewStore<CustomerOrdersStateViewJson, CustomerOrdersStateView>));
-                services.AddScoped(typeof(IStateViewStore<StatusOrdersStateView>), typeof(SQLStateViewStore<StatusOrdersStateViewJson, StatusOrdersStateView>));
-                services.AddScoped(typeof(IStateViewStore<DailyOrdersStateView>), typeof(SQLStateViewStore<DailyOrdersStateViewJson, DailyOrdersStateView>));
+                services.AddSingleton(typeof(IStateViewStore<OrderStateView>), typeof(SQLStateViewStore<OrderStateViewJson, OrderStateView>));
+                services.AddSingleton(typeof(IStateViewStore<CustomerOrdersStateView>), typeof(SQLStateViewStore<CustomerOrdersStateViewJson, CustomerOrdersStateView>));
+                services.AddSingleton(typeof(IStateViewStore<StatusOrdersStateView>), typeof(SQLStateViewStore<StatusOrdersStateViewJson, StatusOrdersStateView>));
+                services.AddSingleton(typeof(IStateViewStore<DailyOrdersStateView>), typeof(SQLStateViewStore<DailyOrdersStateViewJson, DailyOrdersStateView>));
                 break;
             case "Cosmos":
                 if (configuration["EventStore"] != "Cosmos")
@@ -84,8 +84,7 @@ public static class ServiceCollectionExtensions
                     services.AddCosmosContainerConfiguration(configuration);
                     services.InitializeDatabase(configuration);
                 }
-                services.AddCosmosContainerConfiguration<IStateView>(configuration, "StateViewCosmosContainerConfiguration");
-                services.AddScoped(typeof(IStateViewStore<>), typeof(CosmosStateViewStore<>));
+                services.AddCosmosStateViewStore(configuration, ServiceLifetime.Singleton);
                 break;
         }
 

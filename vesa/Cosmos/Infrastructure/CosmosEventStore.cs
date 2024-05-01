@@ -57,7 +57,7 @@ public class CosmosEventStore : EventStore, IEventStore, IDisposable
         }
         catch (Exception ex)
         {
-
+            throw;
         }
         return response.Resource.FirstOrDefault(0);
     }
