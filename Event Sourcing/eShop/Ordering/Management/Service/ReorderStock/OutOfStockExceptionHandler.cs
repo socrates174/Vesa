@@ -1,20 +1,16 @@
 ﻿using eShop.Ordering.Management.Events;
 using eShop.Ordering.Management.Exceptions;
-using Microsoft.Extensions.DependencyInjection;
 using vesa.Core.Abstractions;
 
 namespace eShop.Ordering.Management.Service.ReorderStock;
 
 public class OutOfStockExceptionHandler : IEventHandler<OutOfStockExceptionEvent>
 {
-    private readonly IServiceProvider _serviceProvider;
+    private readonly ICommandHandler<ReorderStockCommand> _commandHandler;
 
-    public OutOfStockExceptionHandler
-    (
-        IServiceProvider serviceProvider
-    )
+    public OutOfStockExceptionHandler(ICommandHandler<ReorderStockCommand> commandHandler)
     {
-        _serviceProvider = serviceProvider;
+        _commandHandler = commandHandler;
     }
 
     public async Task HandleAsync(OutOfStockExceptionEvent @event, CancellationToken cancellationToken)
@@ -30,18 +26,6 @@ public class OutOfStockExceptionHandler : IEventHandler<OutOfStockExceptionEvent
             @event.TriggeredBy,
             @event.SequenceNumber
         );
-        try
-        {
-            using (var scope = _serviceProvider.CreateScope())
-            {
-                var serviceProvider = scope.ServiceProvider;
-                var commandHandler = serviceProvider.GetRequiredService<ICommandHandler<ReorderStockCommand>>();
-                var events = await commandHandler.HandleAsync(reorderStockCommand, new CancellationToken());
-            }
-        }
-        catch (Exception ex)
-        {
-            throw;
-        }
+        var events = await _commandHandler.HandleAsync(reorderStockCommand, new CancellationToken());
     }
 }

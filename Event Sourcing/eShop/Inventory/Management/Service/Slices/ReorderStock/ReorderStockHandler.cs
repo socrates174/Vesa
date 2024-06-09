@@ -1,9 +1,9 @@
-﻿using vesa.Core.Abstractions;
-using vesa.Core.Infrastructure;
-using eShop.Inventory.Core.Events;
+﻿using eShop.Inventory.Core.Events;
 using eShop.Inventory.Core.IntegrationEvents;
 using eShop.Inventory.Data.Models;
 using eShop.Inventory.Management.Core.Abstractions;
+using vesa.Core.Abstractions;
+using vesa.Core.Infrastructure;
 
 namespace eShop.Inventory.Management.Service.ReorderStock;
 
@@ -14,13 +14,12 @@ public class ReorderStockHandler : CommandHandler<ReorderStockCommand>, IEventHa
 
     public ReorderStockHandler
     (
-        IServiceProvider serviceProvider,
         IDomain<ReorderStockCommand> domain,
         IEventStore eventStore,
         ISupplier supplier
 
     )
-        : base(serviceProvider, domain, eventStore)
+        : base(domain, eventStore)
     {
         _supplier = supplier;
     }

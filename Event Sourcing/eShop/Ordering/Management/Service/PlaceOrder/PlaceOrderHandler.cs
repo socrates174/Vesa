@@ -7,11 +7,10 @@ public class PlaceOrderHandler : CommandHandler<PlaceOrderCommand>
 {
     public PlaceOrderHandler
     (
-        IServiceProvider serviceProvider,
         IDomain<PlaceOrderCommand> domain,
         IEventStore eventStore
     )
-        : base(serviceProvider, domain, eventStore)
+        : base(domain, eventStore)
     {
     }
 

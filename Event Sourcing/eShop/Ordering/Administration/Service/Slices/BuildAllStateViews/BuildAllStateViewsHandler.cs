@@ -11,7 +11,7 @@ public class BuildAllStateViewsHandler : CommandHandler<BuildAllStateViewsComman
         IDomain<BuildAllStateViewsCommand> domain,
         IEventStore eventStore
     )
-        : base(serviceProvider, domain, eventStore)
+        : base(domain, eventStore)
     {
     }
 }

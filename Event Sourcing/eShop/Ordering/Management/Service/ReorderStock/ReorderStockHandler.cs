@@ -9,11 +9,10 @@ public class ReorderStockHandler : CommandHandler<ReorderStockCommand>
 
     public ReorderStockHandler
     (
-        IServiceProvider serviceProvider,
         IDomain<ReorderStockCommand> domain,
         IEventStore eventStore
     )
-        : base(serviceProvider, domain, eventStore)
+        : base(domain, eventStore)
     {
     }
 

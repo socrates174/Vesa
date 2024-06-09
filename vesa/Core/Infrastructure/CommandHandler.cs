@@ -12,12 +12,10 @@ public abstract class CommandHandler<TCommand> : ICommandHandler<TCommand>
 
     public CommandHandler
     (
-        IServiceProvider serviceProvider,
         IDomain<TCommand> domain,
         IEventStore eventStore
     )
     {
-        _serviceProvider = serviceProvider;
         _domain = domain;
         _eventStore = eventStore;
     }
@@ -40,20 +38,17 @@ public abstract class CommandHandler<TCommand, TStateView> : ICommandHandler<TCo
     where TStateView : class, IStateView, new()
 {
     protected readonly IStateViewStore<TStateView> _stateViewStore;
-    protected readonly IServiceProvider _serviceProvider;
     protected readonly IDomain<TCommand, TStateView> _domain;
     protected readonly IEventStore _eventStore;
 
     public CommandHandler
     (
         IStateViewStore<TStateView> stateViewStore,
-        IServiceProvider serviceProvider,
         IDomain<TCommand, TStateView> domain,
         IEventStore eventStore
     )
     {
         _stateViewStore = stateViewStore;
-        _serviceProvider = serviceProvider;
         _domain = domain;
         _eventStore = eventStore;
     }
@@ -87,4 +82,3 @@ public abstract class CommandHandler<TCommand, TStateView> : ICommandHandler<TCo
         }
     }
 }
-

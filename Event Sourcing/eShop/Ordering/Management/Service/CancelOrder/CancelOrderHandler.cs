@@ -9,11 +9,10 @@ public class CancelOrderHandler : CommandHandler<CancelOrderCommand, OrderStateV
     public CancelOrderHandler
     (
         IStateViewStore<OrderStateView> stateViewStore,
-        IServiceProvider serviceProvider,
         IDomain<CancelOrderCommand, OrderStateView> domain,
         IEventStore eventStore
     )
-        : base(stateViewStore, serviceProvider, domain, eventStore)
+        : base(stateViewStore, domain, eventStore)
     {
     }
 

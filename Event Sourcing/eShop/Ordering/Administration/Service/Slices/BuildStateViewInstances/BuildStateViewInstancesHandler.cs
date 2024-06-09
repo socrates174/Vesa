@@ -7,11 +7,10 @@ public class BuildStateViewInstancesHandler : CommandHandler<BuildStateViewInsta
 {
     public BuildStateViewInstancesHandler
     (
-        IServiceProvider serviceProvider,
         IDomain<BuildStateViewInstancesCommand> domain,
         IEventStore eventStore
     )
-        : base(serviceProvider, domain, eventStore)
+        : base(domain, eventStore)
     {
     }
 }

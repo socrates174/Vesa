@@ -9,11 +9,10 @@ public class ReturnOrderHandler : CommandHandler<ReturnOrderCommand, OrderStateV
     public ReturnOrderHandler
     (
         IStateViewStore<OrderStateView> stateViewStore,
-        IServiceProvider serviceProvider,
         IDomain<ReturnOrderCommand, OrderStateView> domain,
         IEventStore eventStore
     )
-        : base(stateViewStore, serviceProvider, domain, eventStore)
+        : base(stateViewStore, domain, eventStore)
     {
     }
 
