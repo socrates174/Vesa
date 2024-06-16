@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
+using TableDependency.SqlClient;
+using TableDependency.SqlClient.Base.Abstracts;
 using vesa.Core.Abstractions;
 using vesa.Core.Infrastructure;
 using vesa.SQL.Infrastructure;
@@ -33,18 +34,15 @@ public static class ServiceCollectionExtensions
         ServiceLifetime serviceLifetime = ServiceLifetime.Singleton
     )
     {
+        services.Add(new ServiceDescriptor(typeof(IEventListener), typeof(SQLEventStoreListener), serviceLifetime));
         services.Add(new ServiceDescriptor
         (
-            typeof(IEventListener),
-            sp => new SQLEventStoreListener
-            (
-                configuration[configuration["SqlConnectionKey"]],
-                sp.GetService<IEventProcessor>(),
-                sp.GetService<ILogger<SQLEventStoreListener>>()
-            ),
-            serviceLifetime
-        ));
+            typeof(ITableDependency<EventJson>),
+            sp => new SqlTableDependency<EventJson>(configuration[configuration["SqlConnectionKey"]]),
+            serviceLifetime)
+        );
         services.Add(new ServiceDescriptor(typeof(IEventProcessor), typeof(EventProcessor), serviceLifetime));
+
         return services;
     }
 }

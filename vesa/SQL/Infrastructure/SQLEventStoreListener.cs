@@ -1,6 +1,6 @@
 ﻿using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
-using TableDependency.SqlClient;
+using TableDependency.SqlClient.Base.Abstracts;
 using TableDependency.SqlClient.Base.Enums;
 using TableDependency.SqlClient.Base.EventArgs;
 using vesa.Core.Abstractions;
@@ -13,19 +13,18 @@ namespace vesa.SQL.Infrastructure;
 public class SQLEventStoreListener : IEventStoreListener
 {
     private CancellationToken _cancellationToken;
-    private readonly string _connection;
+    private ITableDependency<EventJson> _eventJsonChangeFeed;
     private readonly IEventProcessor _eventProcessor;
     private readonly ILogger<SQLEventStoreListener> _logger;
-    private SqlTableDependency<EventJson> _eventJsonChangeFeed;
 
     public SQLEventStoreListener
     (
-        string connection,
+        ITableDependency<EventJson> eventJsonChangeFeed,
         IEventProcessor eventProcessor,
         ILogger<SQLEventStoreListener> logger
     )
     {
-        _connection = connection;
+        _eventJsonChangeFeed = eventJsonChangeFeed;
         _eventProcessor = eventProcessor;
         _logger = logger;
     }
@@ -33,7 +32,6 @@ public class SQLEventStoreListener : IEventStoreListener
     public async Task StartAsync(CancellationToken cancellationToken)
     {
         _cancellationToken = cancellationToken;
-        var _eventJsonChangeFeed = new SqlTableDependency<EventJson>(_connection);
         _eventJsonChangeFeed.OnChanged += Changed;
         _eventJsonChangeFeed.Start();
     }
